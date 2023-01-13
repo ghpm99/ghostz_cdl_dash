@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styles from "./panel.module.scss";
 
 import {
@@ -8,10 +8,12 @@ import {
     TeamOutlined,
     UserOutlined,
 } from "@ant-design/icons";
-import { Button, MenuProps, Table } from "antd";
+import { Button, MenuProps, Table, Tag, message } from "antd";
 import { Breadcrumb, Layout, Menu, theme } from "antd";
 import cdlLogo from "assets/Logo_Clube_Small.png";
 import Image from "next/image";
+import ModalImportJSON from "components/modal";
+import { fetchImportJsonService, fetchOverlayService } from "services/panel";
 
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -37,11 +39,58 @@ const items: MenuItem[] = [
     getItem("Configurações", "sub1", <UserOutlined />, [getItem("Tom", "3")]),
 ];
 
+const keyMessage = "PANEL_KEY_MESSAGE";
+
 const Panel = () => {
     const [collapsed, setCollapsed] = useState(false);
+    const [openModal, setOpenModal] = useState(false);
+    const [dataSource, setDataSource] = useState([]);
     const {
         token: { colorBgContainer },
     } = theme.useToken();
+
+    const toggleModal = () => {
+        setOpenModal((prev) => !prev);
+    };
+
+    const importJSONEvent = (event) => {
+        console.log(event);
+        fetchImportJsonService(event)
+            .then((response) => {
+                console.log(response);
+                message.success({
+                    key: keyMessage,
+                    content: response.data.status,
+                });
+            })
+            .catch((reason) => {
+                console.log(reason);
+                message.error({
+                    key: keyMessage,
+                    content:
+                        reason.response?.data?.status ??
+                        "Falhou ao importar JSON!",
+                });
+            });
+    };
+
+    const updateDataSource = () => {
+        fetchOverlayService()
+            .then((response) => {
+                setDataSource(response.data.data);
+            })
+            .catch((reason) => {
+                message.error({
+                    key: keyMessage,
+                    content:
+                        reason.response.data.status ?? "Falhou a buscar dados!",
+                });
+            });
+    };
+
+    useEffect(() => {
+        updateDataSource();
+    }, []);
 
     return (
         <Layout style={{ minHeight: "100vh" }}>
@@ -49,15 +98,17 @@ const Panel = () => {
                 collapsible
                 collapsed={collapsed}
                 onCollapse={(value) => setCollapsed(value)}>
-                <div
-                    style={{
-                        height: 68,
-                        margin: 16,
-                        display: "flex",
-                        justifyContent: "center",
-                    }}>
-                    <Image src={cdlLogo} alt="Logo" />
-                </div>
+                {!collapsed && (
+                    <div
+                        style={{
+                            height: 68,
+                            margin: 16,
+                            display: "flex",
+                            justifyContent: "center",
+                        }}>
+                        <Image src={cdlLogo} alt="Logo" />
+                    </div>
+                )}
                 <Menu
                     theme="dark"
                     defaultSelectedKeys={["1"]}
@@ -78,23 +129,42 @@ const Panel = () => {
                             minHeight: 360,
                             background: colorBgContainer,
                         }}>
-                        <Button type='primary'>Carregar JSON</Button>
+                        <Button type="primary" onClick={toggleModal}>
+                            Carregar JSON
+                        </Button>
                         <Table
                             columns={[
                                 {
                                     title: "Ativo",
                                     dataIndex: "active",
                                     key: "active",
+                                    render: (value) => {
+                                        let color = value
+                                            ? "geekblue"
+                                            : "volcano";
+
+                                        return (
+                                            <Tag color={color}>
+                                                {value ? "Ativo" : "Inativo"}
+                                            </Tag>
+                                        );
+                                    },
                                 },
                                 {
                                     title: "Jogador/Time 1",
                                     dataIndex: "player1",
                                     key: "player1",
+                                    render(value, record, index) {
+                                        return record.team[0]?.name ?? "-";
+                                    },
                                 },
                                 {
                                     title: "Jogador/Time 2",
                                     dataIndex: "player2",
                                     key: "player2",
+                                    render(value, record, index) {
+                                        return record.team[1]?.name ?? "-";
+                                    },
                                 },
                                 {
                                     title: "Data",
@@ -108,10 +178,11 @@ const Panel = () => {
                                 },
                                 {
                                     title: "Tipo",
-                                    dataIndex: "type",
-                                    key: "type",
+                                    dataIndex: "modality",
+                                    key: "modality",
                                 },
                             ]}
+                            dataSource={dataSource}
                         />
                     </div>
                 </Content>
@@ -119,6 +190,11 @@ const Panel = () => {
                     Ant Design ©2023 Created by Ant UED
                 </Footer>
             </Layout>
+            <ModalImportJSON
+                open={openModal}
+                toggle={toggleModal}
+                onOk={importJSONEvent}
+            />
         </Layout>
     );
 };
