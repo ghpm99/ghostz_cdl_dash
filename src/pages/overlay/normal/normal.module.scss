@@ -1,0 +1,54 @@
+.container {
+    color: white;
+    position: absolute;
+    left: 783px;
+    top: 230px;
+    width: 360px;
+    height: 410px;
+    display: flex;
+    font-size: 20px;
+}
+
+.first-player {
+    text-align: end;
+}
+
+.first-personal-data {
+    left: 46px;
+    position: absolute;
+    line-height: 30px;
+}
+
+.first-battle-data {
+    position: absolute;
+    top: 145px;
+    line-height: 36px;
+    right: 263px;
+}
+
+.second-player {
+    position: absolute;
+    right: 0px;
+}
+
+.second-personal-data {
+    position: absolute;
+    right: 34px;
+    line-height: 30px;
+}
+
+.second-battle-data {
+    right: 0px;
+    position: absolute;
+    top: 145px;
+    line-height: 36px;
+}
+
+.display-subtitle {
+    text-transform: uppercase;
+    position: absolute;
+    left: 127px;
+    top: 142px;
+    text-align: center;
+    line-height: 36px;
+}

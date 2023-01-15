@@ -92,6 +92,15 @@ const Panel = () => {
         updateDataSource();
     }, []);
 
+    const teamRenderName = (team) => {
+        const teamName = team.name;
+        const characterName = team.characteres
+            .map((character) => `${character.family}/${character.name}`)
+            .filter((item) => item.length > 1)
+            .join(",");
+        return `Time: ${teamName} Jogadores: ${characterName}`;
+    };
+
     return (
         <Layout style={{ minHeight: "100vh" }}>
             <Sider
@@ -155,7 +164,7 @@ const Panel = () => {
                                     dataIndex: "player1",
                                     key: "player1",
                                     render(value, record, index) {
-                                        return record.team[0]?.name ?? "-";
+                                        return teamRenderName(record.team[0]);
                                     },
                                 },
                                 {
@@ -163,7 +172,7 @@ const Panel = () => {
                                     dataIndex: "player2",
                                     key: "player2",
                                     render(value, record, index) {
-                                        return record.team[1]?.name ?? "-";
+                                        return teamRenderName(record.team[1]);
                                     },
                                 },
                                 {
