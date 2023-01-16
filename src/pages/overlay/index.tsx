@@ -1,9 +1,8 @@
-import background from "assets/Summary.png";
-import Image from "next/image";
 import { useEffect, useState } from "react";
 import { fetchActiveOverlayService } from "services/panel";
 import Layout from "./layout";
-import styles from './overlay.module.scss'
+import styles from "./overlay.module.scss";
+import Background from "./background";
 
 const Overlay = () => {
     const [active, setActive] = useState({
@@ -19,15 +18,21 @@ const Overlay = () => {
             setActive(response.data.data);
         });
     }, []);
+
+
     return (
-        <div className={styles['container']}>
+        <div className={styles["container"]}>
             <Layout
                 date={active.date}
                 hour={active.hour}
                 modality={active.modality}
                 team={active.team}
             />
-            <Image src={background} alt="background" />
+            <Background
+                backgroundImage=''
+                firstPlayerBackground=''
+                secondPlayerBackground=''
+            />
         </div>
     );
 };
