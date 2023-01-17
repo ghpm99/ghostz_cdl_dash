@@ -7,6 +7,9 @@ interface INormalLayoutProps {
 }
 
 const NormalLayout = (props: INormalLayoutProps) => {
+    if(!props.team || props.team.length === 0){
+        return (<div></div>)
+    }
     const firstTeam = props.team[0];
     const firstCharacter = firstTeam.characteres[0];
     const secondTeam = props.team[1];

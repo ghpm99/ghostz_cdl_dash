@@ -21,6 +21,9 @@ const Overlay = () => {
     }, []);
 
     const getBackgroundPlayer = (team) => {
+        if (!team) {
+            return "";
+        }
         const character = team?.characteres[0];
         console.log("getBackgroundPlayer", team, character);
         if (!character) {
