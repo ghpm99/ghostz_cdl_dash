@@ -16,7 +16,7 @@ const Layout = (props: ILayoutProps) => {
         }
     };
     return (
-        <div>
+        <div className={styles['layout-container']}>
             <div className={styles["date"]}>{props.date}</div>
             <div className={styles["hour"]}>{props.hour}</div>
             <div className={styles["modality"]}>{props.modality}</div>

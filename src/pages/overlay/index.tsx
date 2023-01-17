@@ -9,6 +9,7 @@ const Overlay = () => {
         date: "",
         hour: "",
         modality: "",
+        background: "",
         team: [],
     });
     console.log(active);
@@ -19,6 +20,25 @@ const Overlay = () => {
         });
     }, []);
 
+    const getBackgroundPlayer = (team) => {
+        const character = team?.characteres[0];
+        console.log("getBackgroundPlayer", team, character);
+        if (!character) {
+            return "";
+        }
+
+        if (character.custom.video.length > 1) {
+            return character.custom.video;
+        }
+
+        if (character.combat_style === "Despertar") {
+            return character.media.video_awakening;
+        } else if (character.combat_style === "Sucessao") {
+            return character.media.video_sucession;
+        } else {
+            return "";
+        }
+    };
 
     return (
         <div className={styles["container"]}>
@@ -29,9 +49,9 @@ const Overlay = () => {
                 team={active.team}
             />
             <Background
-                backgroundImage=''
-                firstPlayerBackground=''
-                secondPlayerBackground=''
+                backgroundImage={active.background}
+                firstPlayerBackground={getBackgroundPlayer(active.team[0])}
+                secondPlayerBackground={getBackgroundPlayer(active.team[1])}
             />
         </div>
     );

@@ -36,7 +36,7 @@ const NormalLayout = (props: INormalLayoutProps) => {
                     <div>{firstCharacter.victories}</div>
                     <div>{firstCharacter.defeats}</div>
                     <div>{firstCharacter.champion}</div>
-                    <div>{calculateWinRate(parseInt(firstCharacter.victories), parseInt(firstCharacter.defeats))}</div>
+                    <div>{calculateWinRate(parseInt(firstCharacter.matches), parseInt(firstCharacter.victories))}</div>
                     <div>{firstTeam.twitch}</div>
                 </div>
             </div>
@@ -53,7 +53,7 @@ const NormalLayout = (props: INormalLayoutProps) => {
                     <div>{secondCharacter.victories}</div>
                     <div>{secondCharacter.defeats}</div>
                     <div>{secondCharacter.champion}</div>
-                    <div>{calculateWinRate(parseInt(secondCharacter.victories), parseInt(secondCharacter.defeats))}</div>
+                    <div>{calculateWinRate(parseInt(secondCharacter.matches), parseInt(secondCharacter.victories))}</div>
                     <div>{secondTeam.twitch}</div>
                 </div>
             </div>
