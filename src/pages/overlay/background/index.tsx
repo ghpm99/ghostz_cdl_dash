@@ -7,7 +7,7 @@ interface IBackgroundProps {
 }
 
 const Background = (props: IBackgroundProps) => {
-    console.log("Background", props);
+
     return (
         <div className={styles["background-container"]}>
             <img

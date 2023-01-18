@@ -13,7 +13,11 @@ import { Breadcrumb, Layout, Menu, theme } from "antd";
 import cdlLogo from "assets/Logo_Clube_Small.png";
 import Image from "next/image";
 import ModalImportJSON from "components/modal";
-import { fetchImportJsonService, fetchOverlayService } from "services/panel";
+import {
+    fetchChangeOverlayActiveService,
+    fetchImportJsonService,
+    fetchOverlayService,
+} from "services/panel";
 
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -54,23 +58,23 @@ const Panel = () => {
     };
 
     const importJSONEvent = (event) => {
-        console.log(event);
         fetchImportJsonService(event)
             .then((response) => {
-                console.log(response);
                 message.success({
                     key: keyMessage,
                     content: response.data.status,
                 });
             })
             .catch((reason) => {
-                console.log(reason);
                 message.error({
                     key: keyMessage,
                     content:
                         reason.response?.data?.status ??
                         "Falhou ao importar JSON!",
                 });
+            })
+            .finally(() => {
+                updateDataSource();
             });
     };
 
@@ -99,6 +103,12 @@ const Panel = () => {
             .filter((item) => item.length > 1)
             .join(",");
         return `Time: ${teamName} Jogadores: ${characterName}`;
+    };
+
+    const changeOverlayActive = (id) => {
+        fetchChangeOverlayActiveService(id).then((response) => {
+            updateDataSource();
+        });
     };
 
     return (
@@ -190,12 +200,26 @@ const Panel = () => {
                                     dataIndex: "modality",
                                     key: "modality",
                                 },
+                                {
+                                    title: "Ações",
+                                    dataIndex: "id",
+                                    key: "id",
+                                    render: (value) => (
+                                        <div
+                                            className={styles['action']}
+                                            onClick={() =>
+                                                changeOverlayActive(value)
+                                            }>
+                                            Ativar overlay
+                                        </div>
+                                    ),
+                                },
                             ]}
                             dataSource={dataSource}
                             pagination={{
                                 showSizeChanger: true,
                                 showQuickJumper: true,
-                                showTotal: (total) => `Total ${total} items`
+                                showTotal: (total) => `Total ${total} items`,
                             }}
                         />
                     </div>

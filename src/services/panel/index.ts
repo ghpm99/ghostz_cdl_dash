@@ -26,3 +26,12 @@ export async function fetchActiveOverlayService() {
         data: response.data,
     };
 }
+
+export async function fetchChangeOverlayActiveService(id) {
+    const response = await api.post(`/overlay/${id}/active`);
+    return {
+        status: response.status,
+        statusText: response.statusText,
+        data: response.data,
+    };
+}

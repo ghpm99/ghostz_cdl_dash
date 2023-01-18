@@ -7,7 +7,6 @@ import Pusher from "pusher-js";
 import { GetServerSideProps } from "next";
 
 const Overlay = (props) => {
-    console.log(props);
     const [active, setActive] = useState({
         date: "",
         hour: "",
@@ -17,28 +16,21 @@ const Overlay = (props) => {
     });
 
     const onChangeOverlay = (data) => {
-        setActive(data.data)
+        setActive(data.data);
     };
 
     useEffect(() => {
         fetchActiveOverlayService().then((response) => {
-            console.log(response);
             setActive(response.data.data);
         });
 
-        console.log("pusher", props.pusher_key);
-
         const pusher = new Pusher(props.pusher_key, {
             cluster: props.pusher_cluster,
-            authEndpoint: process.env.NEXT_PUBLIC_API_URL + '/pusher/auth',
+            authEndpoint: process.env.NEXT_PUBLIC_API_URL + "/pusher/auth",
         });
 
-        console.log("pusher", pusher);
-
         const channel = pusher.subscribe("private-overlay");
-
         channel.bind("overlay", onChangeOverlay);
-
         return () => {
             pusher.unsubscribe("private-overlay");
         };

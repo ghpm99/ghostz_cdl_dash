@@ -9,7 +9,7 @@ interface ILayoutProps {
 }
 
 const Layout = (props: ILayoutProps) => {
-    console.log(props.team);
+
     const getComponentByModality = (modality: string) => {
         if (modality === "PREMIUM") {
             return <NormalLayout team={props.team} />;

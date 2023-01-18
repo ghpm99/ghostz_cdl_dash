@@ -1,9 +1,9 @@
 .container {
     color: white;
     position: absolute;
-    left: 783px;
+    left: 735px;
     top: 230px;
-    width: 360px;
+    width: 450px;
     height: 410px;
     display: flex;
     font-size: 20px;
@@ -14,7 +14,7 @@
 }
 
 .first-personal-data {
-    left: 46px;
+    right: 245px;
     position: absolute;
     line-height: 30px;
 }
@@ -23,7 +23,7 @@
     position: absolute;
     top: 145px;
     line-height: 36px;
-    right: 263px;
+    right: 305px;
 }
 
 .second-player {
@@ -33,21 +33,21 @@
 
 .second-personal-data {
     position: absolute;
-    right: 34px;
+    left: -200px;
     line-height: 30px;
 }
 
 .second-battle-data {
-    right: 0px;
+    left: -140px;
     position: absolute;
-    top: 145px;
+    top: 143px;
     line-height: 36px;
 }
 
 .display-subtitle {
     text-transform: uppercase;
     position: absolute;
-    left: 127px;
+    left: 175px;
     top: 142px;
     text-align: center;
     line-height: 36px;

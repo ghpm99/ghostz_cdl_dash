@@ -1,6 +1,8 @@
-
 export const calculateWinRate = (matches: number, victories: number) => {
-    const winRate = (victories/ matches) * 100
+    if (matches === 0) {
+        return "0%";
+    }
+    const winRate = (victories / matches) * 100;
 
-    return `${Math.ceil(winRate)}%`
-}
+    return `${Math.ceil(winRate)}%`;
+};
