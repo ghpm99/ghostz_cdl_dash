@@ -3,8 +3,11 @@ import { fetchActiveOverlayService } from "services/panel";
 import Layout from "./layout";
 import styles from "./overlay.module.scss";
 import Background from "./background";
+import Pusher from "pusher-js";
+import { GetServerSideProps } from "next";
 
-const Overlay = () => {
+const Overlay = (props) => {
+    console.log(props);
     const [active, setActive] = useState({
         date: "",
         hour: "",
@@ -12,12 +15,33 @@ const Overlay = () => {
         background: "",
         team: [],
     });
-    console.log(active);
+
+    const onChangeOverlay = (data) => {
+        setActive(data.data)
+    };
+
     useEffect(() => {
         fetchActiveOverlayService().then((response) => {
             console.log(response);
             setActive(response.data.data);
         });
+
+        console.log("pusher", props.pusher_key);
+
+        const pusher = new Pusher(props.pusher_key, {
+            cluster: props.pusher_cluster,
+            authEndpoint: process.env.NEXT_PUBLIC_API_URL + '/pusher/auth',
+        });
+
+        console.log("pusher", pusher);
+
+        const channel = pusher.subscribe("private-overlay");
+
+        channel.bind("overlay", onChangeOverlay);
+
+        return () => {
+            pusher.unsubscribe("private-overlay");
+        };
     }, []);
 
     const getBackgroundPlayer = (team) => {
@@ -25,7 +49,7 @@ const Overlay = () => {
             return "";
         }
         const character = team?.characteres[0];
-        console.log("getBackgroundPlayer", team, character);
+
         if (!character) {
             return "";
         }
@@ -61,3 +85,11 @@ const Overlay = () => {
 };
 
 export default Overlay;
+
+export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
+    const props = {
+        pusher_key: process.env.PUSHER_KEY,
+        pusher_cluster: process.env.PUSHER_CLUSTER,
+    };
+    return { props };
+};

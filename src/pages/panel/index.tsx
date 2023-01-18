@@ -192,6 +192,11 @@ const Panel = () => {
                                 },
                             ]}
                             dataSource={dataSource}
+                            pagination={{
+                                showSizeChanger: true,
+                                showQuickJumper: true,
+                                showTotal: (total) => `Total ${total} items`
+                            }}
                         />
                     </div>
                 </Content>
