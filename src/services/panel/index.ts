@@ -35,3 +35,12 @@ export async function fetchChangeOverlayActiveService(id) {
         data: response.data,
     };
 }
+
+export async function reloadOverlayService(){
+    const response = await api.post(`/overlay/reload/`);
+    return {
+        status: response.status,
+        statusText: response.statusText,
+        data: response.data,
+    };
+}

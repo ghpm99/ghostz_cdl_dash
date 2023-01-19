@@ -59,6 +59,10 @@ const Overlay = (props) => {
         }
     };
 
+    if (active.modality === "DUPLAS") {
+        return <div className={styles["container"]}></div>;
+    }
+
     return (
         <div className={styles["container"]}>
             <Layout

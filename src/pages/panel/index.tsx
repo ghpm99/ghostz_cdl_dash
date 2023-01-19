@@ -17,6 +17,7 @@ import {
     fetchChangeOverlayActiveService,
     fetchImportJsonService,
     fetchOverlayService,
+    reloadOverlayService,
 } from "services/panel";
 
 const { Header, Content, Footer, Sider } = Layout;
@@ -64,6 +65,7 @@ const Panel = () => {
                     key: keyMessage,
                     content: response.data.status,
                 });
+                toggleModal();
             })
             .catch((reason) => {
                 message.error({
@@ -111,6 +113,46 @@ const Panel = () => {
         });
     };
 
+    const reloadOverlay = () => {
+        reloadOverlayService()
+            .then((response) => {
+                message.success({
+                    key: keyMessage,
+                    content: response.data.status,
+                });
+            })
+            .catch((reason) => {
+                message.error({
+                    key: keyMessage,
+                    content:
+                        reason.response?.data?.status ??
+                        "Falhou ao recarregar overlay!",
+                });
+            });
+    };
+
+    const dateSourceDate = dataSource.map((item) => item.date);
+
+    const dateFilter = dateSourceDate
+        .filter((element, index) => {
+            return dateSourceDate.indexOf(element) === index;
+        })
+        .map((item) => ({
+            text: item,
+            value: item,
+        }));
+
+    const dateSourceHour = dataSource.map((item) => item.hour);
+
+    const hourFilter = dateSourceHour
+        .filter((element, index) => {
+            return dateSourceHour.indexOf(element) === index;
+        })
+        .map((item) => ({
+            text: item,
+            value: item,
+        }));
+
     return (
         <Layout style={{ minHeight: "100vh" }}>
             <Sider
@@ -148,9 +190,14 @@ const Panel = () => {
                             minHeight: 360,
                             background: colorBgContainer,
                         }}>
-                        <Button type="primary" onClick={toggleModal}>
-                            Carregar JSON
-                        </Button>
+                        <div className={styles["controllers"]}>
+                            <Button type="primary" onClick={toggleModal}>
+                                Carregar JSON
+                            </Button>
+                            <Button type="default" onClick={reloadOverlay}>
+                                Recarregar overlay
+                            </Button>
+                        </div>
                         <Table
                             columns={[
                                 {
@@ -189,11 +236,17 @@ const Panel = () => {
                                     title: "Data",
                                     dataIndex: "date",
                                     key: "date",
+                                    filters: dateFilter,
+                                    onFilter: (value: string, record) =>
+                                        record.date === value,
                                 },
                                 {
                                     title: "Hora",
                                     dataIndex: "hour",
                                     key: "hour",
+                                    filters: hourFilter,
+                                    onFilter: (value: string, record) =>
+                                        record.hour === value,
                                 },
                                 {
                                     title: "Tipo",
@@ -206,7 +259,7 @@ const Panel = () => {
                                     key: "id",
                                     render: (value) => (
                                         <div
-                                            className={styles['action']}
+                                            className={styles["action"]}
                                             onClick={() =>
                                                 changeOverlayActive(value)
                                             }>
