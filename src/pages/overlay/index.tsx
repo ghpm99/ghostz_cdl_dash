@@ -1,10 +1,10 @@
-import { useEffect, useState } from "react";
-import { fetchActiveOverlayService } from "services/panel";
-import Layout from "./layout";
-import styles from "./overlay.module.scss";
-import Background from "./background";
-import Pusher from "pusher-js";
-import { GetServerSideProps } from "next";
+import DuplasLayout from "components/overlay/duplas"
+import DefaultLayout from "components/overlay/normal"
+import { GetServerSideProps } from "next"
+import Pusher from "pusher-js"
+import { useEffect, useState } from "react"
+import { fetchActiveOverlayService } from "services/panel"
+import styles from "./overlay.module.scss"
 
 const Overlay = (props) => {
     const [active, setActive] = useState({
@@ -14,6 +14,8 @@ const Overlay = (props) => {
         background: "",
         team: [],
     });
+
+    console.log(active);
 
     const onChangeOverlay = (data) => {
         setActive(data.data);
@@ -36,46 +38,17 @@ const Overlay = (props) => {
         };
     }, []);
 
-    const getBackgroundPlayer = (team) => {
-        if (!team) {
-            return "";
-        }
-        const character = team?.characteres[0];
-
-        if (!character) {
-            return "";
-        }
-
-        if (character.custom.video.length > 1) {
-            return character.custom.video;
-        }
-
-        if (character.combat_style === "Despertar") {
-            return character.media.video_awakening;
-        } else if (character.combat_style === "Sucessao") {
-            return character.media.video_sucession;
-        } else {
-            return "";
-        }
-    };
-
     if (active.modality === "DUPLAS") {
-        return <div className={styles["container"]}></div>;
+        return (
+            <div className={styles["container"]}>
+                <DuplasLayout active={active} />
+            </div>
+        );
     }
 
     return (
         <div className={styles["container"]}>
-            <Layout
-                date={active.date}
-                hour={active.hour}
-                modality={active.modality}
-                team={active.team}
-            />
-            <Background
-                backgroundImage={active.background}
-                firstPlayerBackground={getBackgroundPlayer(active.team[0])}
-                secondPlayerBackground={getBackgroundPlayer(active.team[1])}
-            />
+            <DefaultLayout active={active} />
         </div>
     );
 };
