@@ -1,10 +1,11 @@
-import DuplasLayout from "components/overlay/duplas"
-import DefaultLayout from "components/overlay/normal"
-import { GetServerSideProps } from "next"
-import Pusher from "pusher-js"
-import { useEffect, useState } from "react"
-import { fetchActiveOverlayService } from "services/panel"
-import styles from "./overlay.module.scss"
+import DuplasLayout from "components/overlay/duplas";
+import DefaultLayout from "components/overlay/normal";
+import { GetServerSideProps } from "next";
+import Pusher from "pusher-js";
+import { useEffect, useState } from "react";
+import { fetchActiveOverlayService } from "services/panel";
+import styles from "./overlay.module.scss";
+import TriosLayout from "components/overlay/trios";
 
 const Overlay = (props) => {
     const [active, setActive] = useState({
@@ -42,6 +43,14 @@ const Overlay = (props) => {
         return (
             <div className={styles["container"]}>
                 <DuplasLayout active={active} />
+            </div>
+        );
+    }
+
+    if (active.modality === "TRIOS") {
+        return (
+            <div className={styles["container"]}>
+                <TriosLayout active={active} />
             </div>
         );
     }

@@ -1,0 +1,40 @@
+.layout-container {
+    width: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 1;
+    display: flex;
+    padding-top: 20px;
+}
+
+.first-team {
+    width: 50%;
+}
+
+.second-team {
+    width: 50%;
+}
+
+.team-name {
+    color: white;
+    font-size: 50px;
+    text-transform: capitalize;
+    text-align: center;
+}
+
+.team-characteres{
+    display: flex;
+}
+
+.character{
+    width: 318px;
+    margin-left: 5px;
+}
+
+.character-name {
+    color: white;
+    font-size: 32px;
+    text-transform: capitalize;
+    text-align: center;
+}

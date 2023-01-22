@@ -3,10 +3,12 @@ interface IBackgroundProps {
     firstTeam: {
         firstCharacter: string;
         secondCharacter: string;
+        thirdCharacter: string
     };
     secondTeam: {
         firstCharacter: string;
         secondCharacter: string;
+        thirdCharacter: string
     };
 }
 
@@ -23,6 +25,10 @@ const Background = (props: IBackgroundProps) => {
                     className={styles["character"]}
                     src={props.firstTeam.secondCharacter}
                 />
+                <img
+                    className={styles["character"]}
+                    src={props.firstTeam.thirdCharacter}
+                />
             </div>
             <div className={styles["second-team"]}>
                 <img
@@ -32,6 +38,10 @@ const Background = (props: IBackgroundProps) => {
                 <img
                     className={styles["character"]}
                     src={props.secondTeam.secondCharacter}
+                />
+                <img
+                    className={styles["character"]}
+                    src={props.firstTeam.thirdCharacter}
                 />
             </div>
         </div>

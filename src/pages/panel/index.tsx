@@ -217,6 +217,20 @@ const Panel = () => {
                                     },
                                 },
                                 {
+                                    title: "Ações",
+                                    dataIndex: "id",
+                                    key: "id",
+                                    render: (value) => (
+                                        <div
+                                            className={styles["action"]}
+                                            onClick={() =>
+                                                changeOverlayActive(value)
+                                            }>
+                                            Ativar overlay
+                                        </div>
+                                    ),
+                                },
+                                {
                                     title: "Jogador/Time 1",
                                     dataIndex: "player1",
                                     key: "player1",
@@ -253,20 +267,7 @@ const Panel = () => {
                                     dataIndex: "modality",
                                     key: "modality",
                                 },
-                                {
-                                    title: "Ações",
-                                    dataIndex: "id",
-                                    key: "id",
-                                    render: (value) => (
-                                        <div
-                                            className={styles["action"]}
-                                            onClick={() =>
-                                                changeOverlayActive(value)
-                                            }>
-                                            Ativar overlay
-                                        </div>
-                                    ),
-                                },
+
                             ]}
                             dataSource={dataSource}
                             pagination={{
