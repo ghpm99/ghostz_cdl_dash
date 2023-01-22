@@ -1,0 +1,57 @@
+.layout-container {
+    width: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 1;
+    display: flex;
+    justify-content: space-between;
+    padding-top: 20px;
+}
+
+.first-team {
+    width: 656px;
+}
+
+.second-team {
+    width: 656px;
+}
+
+.team-name {
+    color: white;
+    font-size: 50px;
+    text-transform: capitalize;
+    text-align: center;
+}
+
+.team-characteres{
+    display: flex;
+    justify-content: space-between;
+}
+
+.first-character{
+    width: 318px;
+    margin-left: 5px;
+}
+
+.second-character{
+    width: 318px;
+    margin-right: 6px;
+}
+
+.third-character{
+    width: 318px;
+    margin-left: 5px;
+}
+
+.fourth-character{
+    width: 318px;
+    margin-right: 6px;
+}
+
+.character-name {
+    color: white;
+    font-size: 32px;
+    text-transform: capitalize;
+    text-align: center;
+}
