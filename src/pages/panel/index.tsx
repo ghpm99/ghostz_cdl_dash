@@ -1,35 +1,25 @@
 import { useEffect, useState } from "react";
 import styles from "./panel.module.scss";
 
-import {
-    DesktopOutlined,
-    FileOutlined,
-    PieChartOutlined,
-    TeamOutlined,
-    UserOutlined,
-} from "@ant-design/icons";
-import { Button, MenuProps, Table, Tag, message } from "antd";
-import { Breadcrumb, Layout, Menu, theme } from "antd";
+import { DesktopOutlined, PieChartOutlined, UserOutlined } from "@ant-design/icons";
+import { Breadcrumb, Button, Layout, Menu, MenuProps, Table, Tag, message, theme } from "antd";
 import cdlLogo from "assets/Logo_Clube_Small.png";
-import Image from "next/image";
 import ModalImportJSON from "components/modal";
+import Image from "next/image";
 import {
     fetchChangeOverlayActiveService,
     fetchImportJsonService,
     fetchOverlayService,
     reloadOverlayService,
 } from "services/panel";
+import TokenService from "services/auth/authToken";
+import Router from "next/router";
 
 const { Header, Content, Footer, Sider } = Layout;
 
 type MenuItem = Required<MenuProps>["items"][number];
 
-function getItem(
-    label: React.ReactNode,
-    key: React.Key,
-    icon?: React.ReactNode,
-    children?: MenuItem[]
-): MenuItem {
+function getItem(label: React.ReactNode, key: React.Key, icon?: React.ReactNode, children?: MenuItem[]): MenuItem {
     return {
         key,
         icon,
@@ -70,9 +60,7 @@ const Panel = () => {
             .catch((reason) => {
                 message.error({
                     key: keyMessage,
-                    content:
-                        reason.response?.data?.status ??
-                        "Falhou ao importar JSON!",
+                    content: reason.response?.data?.status ?? "Falhou ao importar JSON!",
                 });
             })
             .finally(() => {
@@ -88,13 +76,15 @@ const Panel = () => {
             .catch((reason) => {
                 message.error({
                     key: keyMessage,
-                    content:
-                        reason.response.data.status ?? "Falhou a buscar dados!",
+                    content: reason.response.data.status ?? "Falhou a buscar dados!",
                 });
             });
     };
 
     useEffect(() => {
+        if (!TokenService.getToken()) {
+            Router.push("/signin");
+        }
         updateDataSource();
     }, []);
 
@@ -124,9 +114,7 @@ const Panel = () => {
             .catch((reason) => {
                 message.error({
                     key: keyMessage,
-                    content:
-                        reason.response?.data?.status ??
-                        "Falhou ao recarregar overlay!",
+                    content: reason.response?.data?.status ?? "Falhou ao recarregar overlay!",
                 });
             });
     };
@@ -155,10 +143,7 @@ const Panel = () => {
 
     return (
         <Layout style={{ minHeight: "100vh" }}>
-            <Sider
-                collapsible
-                collapsed={collapsed}
-                onCollapse={(value) => setCollapsed(value)}>
+            <Sider collapsible collapsed={collapsed} onCollapse={(value) => setCollapsed(value)}>
                 {!collapsed && (
                     <div
                         style={{
@@ -170,12 +155,7 @@ const Panel = () => {
                         <Image src={cdlLogo} alt="Logo" />
                     </div>
                 )}
-                <Menu
-                    theme="dark"
-                    defaultSelectedKeys={["1"]}
-                    mode="inline"
-                    items={items}
-                />
+                <Menu theme="dark" defaultSelectedKeys={["1"]} mode="inline" items={items} />
             </Sider>
             <Layout className="site-layout">
                 <Header style={{ padding: 0, background: colorBgContainer }} />
@@ -205,15 +185,9 @@ const Panel = () => {
                                     dataIndex: "active",
                                     key: "active",
                                     render: (value) => {
-                                        let color = value
-                                            ? "geekblue"
-                                            : "volcano";
+                                        let color = value ? "geekblue" : "volcano";
 
-                                        return (
-                                            <Tag color={color}>
-                                                {value ? "Ativo" : "Inativo"}
-                                            </Tag>
-                                        );
+                                        return <Tag color={color}>{value ? "Ativo" : "Inativo"}</Tag>;
                                     },
                                 },
                                 {
@@ -221,11 +195,7 @@ const Panel = () => {
                                     dataIndex: "id",
                                     key: "id",
                                     render: (value) => (
-                                        <div
-                                            className={styles["action"]}
-                                            onClick={() =>
-                                                changeOverlayActive(value)
-                                            }>
+                                        <div className={styles["action"]} onClick={() => changeOverlayActive(value)}>
                                             Ativar overlay
                                         </div>
                                     ),
@@ -251,23 +221,20 @@ const Panel = () => {
                                     dataIndex: "date",
                                     key: "date",
                                     filters: dateFilter,
-                                    onFilter: (value: string, record) =>
-                                        record.date === value,
+                                    onFilter: (value: string, record) => record.date === value,
                                 },
                                 {
                                     title: "Hora",
                                     dataIndex: "hour",
                                     key: "hour",
                                     filters: hourFilter,
-                                    onFilter: (value: string, record) =>
-                                        record.hour === value,
+                                    onFilter: (value: string, record) => record.hour === value,
                                 },
                                 {
                                     title: "Tipo",
                                     dataIndex: "modality",
                                     key: "modality",
                                 },
-
                             ]}
                             dataSource={dataSource}
                             pagination={{
@@ -278,15 +245,9 @@ const Panel = () => {
                         />
                     </div>
                 </Content>
-                <Footer style={{ textAlign: "center" }}>
-                    Ant Design ©2023 Created by Ant UED
-                </Footer>
+                <Footer style={{ textAlign: "center" }}>Ant Design ©2023 Created by Ant UED</Footer>
             </Layout>
-            <ModalImportJSON
-                open={openModal}
-                toggle={toggleModal}
-                onOk={importJSONEvent}
-            />
+            <ModalImportJSON open={openModal} toggle={toggleModal} onOk={importJSONEvent} />
         </Layout>
     );
 };
