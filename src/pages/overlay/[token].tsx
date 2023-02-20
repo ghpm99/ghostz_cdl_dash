@@ -3,11 +3,15 @@ import DefaultLayout from "components/overlay/normal";
 import { GetServerSideProps } from "next";
 import Pusher from "pusher-js";
 import { useEffect, useState } from "react";
-import { fetchActiveOverlayService } from "services/panel";
+import { fetchActiveOverlayService } from "services/overlay";
 import styles from "./overlay.module.scss";
 import TriosLayout from "components/overlay/trios";
+import { useRouter } from "next/router";
 
 const Overlay = (props) => {
+    const router = useRouter();
+    const { token } = router.query;
+
     const [active, setActive] = useState({
         date: "",
         hour: "",
@@ -16,20 +20,36 @@ const Overlay = (props) => {
         team: [],
     });
 
-    console.log(active);
+    console.log(token);
 
     const onChangeOverlay = (data) => {
         setActive(data.data);
     };
 
     useEffect(() => {
-        fetchActiveOverlayService().then((response) => {
-            setActive(response.data.data);
-        });
+        fetchActiveOverlayService(token as string)
+            .then((response) => {
+                setActive(response.data.data);
+            })
+            .catch((error) => {
+                console.log("error", error);
+                if (error.response.status === 404) {
+                    setActive((prev) => ({
+                        ...prev,
+                        background:
+                            "https://static.vecteezy.com/ti/vetor-gratis/p3/6549647-pagina-de-destino-404-gratis-vetor.jpg",
+                    }));
+                }
+            });
 
         const pusher = new Pusher(props.pusher_key, {
             cluster: props.pusher_cluster,
             authEndpoint: process.env.NEXT_PUBLIC_API_URL + "/pusher/auth",
+            auth: {
+                headers: {
+                    Authorization: "Basic " + token,
+                },
+            },
         });
 
         const channel = pusher.subscribe("private-overlay");

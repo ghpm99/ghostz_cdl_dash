@@ -1,7 +1,7 @@
 import axios from 'axios'
 import TokenService from './auth/authToken'
 
-const API_ENDPOINT = process.env.NEXT_PUBLIC_API_URL || ''
+export const API_ENDPOINT = process.env.NEXT_PUBLIC_API_URL || ''
 
 let tried = 0
 const retryMaxCount = 3

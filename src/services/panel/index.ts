@@ -18,15 +18,6 @@ export async function fetchImportJsonService(data) {
     };
 }
 
-export async function fetchActiveOverlayService() {
-    const response = await api.get("/overlay/active/");
-    return {
-        status: response.status,
-        statusText: response.statusText,
-        data: response.data,
-    };
-}
-
 export async function fetchChangeOverlayActiveService(id) {
     const response = await api.post(`/overlay/${id}/active`);
     return {
