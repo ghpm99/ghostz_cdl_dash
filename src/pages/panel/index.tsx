@@ -1,19 +1,19 @@
-import { useEffect, useState } from "react";
-import styles from "./panel.module.scss";
-
 import { DesktopOutlined, PieChartOutlined, UserOutlined } from "@ant-design/icons";
-import { Breadcrumb, Button, Layout, Menu, MenuProps, Table, Tag, message, theme } from "antd";
+import { Breadcrumb, Button, Layout, Menu, MenuProps, message, Table, Tag, theme } from "antd";
 import cdlLogo from "assets/Logo_Clube_Small.png";
 import ModalImportJSON from "components/modal";
 import Image from "next/image";
+import Router from "next/router";
+import { useEffect, useState } from "react";
+import TokenService from "services/auth/authToken";
 import {
     fetchChangeOverlayActiveService,
     fetchImportJsonService,
     fetchOverlayService,
     reloadOverlayService,
 } from "services/panel";
-import TokenService from "services/auth/authToken";
-import Router from "next/router";
+
+import styles from "./panel.module.scss";
 
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -143,7 +143,11 @@ const Panel = () => {
 
     return (
         <Layout style={{ minHeight: "100vh" }}>
-            <Sider collapsible collapsed={collapsed} onCollapse={(value) => setCollapsed(value)}>
+            <Sider
+                className={styles["menu-sider"]}
+                collapsible
+                collapsed={collapsed}
+                onCollapse={(value) => setCollapsed(value)}>
                 {!collapsed && (
                     <div
                         style={{
@@ -179,6 +183,9 @@ const Panel = () => {
                             </Button>
                         </div>
                         <Table
+                            style={{
+                                overflow: "auto",
+                            }}
                             columns={[
                                 {
                                     title: "Ativo",

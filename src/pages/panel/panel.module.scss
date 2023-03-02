@@ -24,12 +24,19 @@
     height: 100vh;
 }
 
-.action{
+.action {
     color: #1890ff;
     cursor: pointer;
 }
 
-.controllers{
+.controllers {
     display: flex;
     justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.menu-sider {
+    @media screen and (max-width: 500px) {
+        display: none;
+    }
 }
