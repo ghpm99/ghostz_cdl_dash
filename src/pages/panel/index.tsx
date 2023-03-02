@@ -98,9 +98,24 @@ const Panel = () => {
     };
 
     const changeOverlayActive = (id) => {
-        fetchChangeOverlayActiveService(id).then((response) => {
-            updateDataSource();
+        message.loading({
+            key: keyMessage,
+            content: "Ativando overlay...",
         });
+        fetchChangeOverlayActiveService(id)
+            .then((response) => {
+                message.success({
+                    key: keyMessage,
+                    content: response.data.status,
+                });
+                updateDataSource();
+            })
+            .catch((reason) => {
+                message.error({
+                    key: keyMessage,
+                    content: reason.response.data.status ?? "Falhou em ativar overlay!",
+                });
+            });
     };
 
     const reloadOverlay = () => {
@@ -193,7 +208,6 @@ const Panel = () => {
                                     key: "active",
                                     render: (value) => {
                                         let color = value ? "geekblue" : "volcano";
-
                                         return <Tag color={color}>{value ? "Ativo" : "Inativo"}</Tag>;
                                     },
                                 },
