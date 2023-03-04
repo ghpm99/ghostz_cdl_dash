@@ -1,4 +1,4 @@
-import { calculateLeague, calculateWinRate } from 'util'
+import { calculateLeague, calculateWinRate } from 'util/util'
 
 import styles from './layout.module.scss'
 
