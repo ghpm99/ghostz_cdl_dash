@@ -1,19 +1,19 @@
-import { DesktopOutlined, PieChartOutlined, UserOutlined } from "@ant-design/icons";
-import { Breadcrumb, Button, Layout, Menu, MenuProps, message, Table, Tag, theme } from "antd";
-import cdlLogo from "assets/Logo_Clube_Small.png";
-import ModalImportJSON from "components/modal";
-import Image from "next/image";
-import Router from "next/router";
-import { useEffect, useState } from "react";
-import TokenService from "services/auth/authToken";
+import { DesktopOutlined, PieChartOutlined, UserOutlined } from '@ant-design/icons'
+import { Breadcrumb, Button, Layout, Menu, MenuProps, message, Table, Tag, theme } from 'antd'
+import cdlLogo from 'assets/Logo_Clube_Small.png'
+import ModalImportJSON from 'components/modal'
+import Image from 'next/image'
+import Router from 'next/router'
+import { useEffect, useState } from 'react'
+import TokenService from 'services/auth/authToken'
 import {
     fetchChangeOverlayActiveService,
     fetchImportJsonService,
     fetchOverlayService,
     reloadOverlayService,
-} from "services/panel";
+} from 'services/panel'
 
-import styles from "./panel.module.scss";
+import styles from './panel.module.scss'
 
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -48,8 +48,11 @@ const Panel = () => {
         setOpenModal((prev) => !prev);
     };
 
-    const importJSONEvent = (event) => {
-        fetchImportJsonService(event)
+    const importJSONEvent = (jsonCombat: string, resetOverlay: boolean) => {
+        fetchImportJsonService({
+            data: jsonCombat,
+            reset: resetOverlay,
+        })
             .then((response) => {
                 message.success({
                     key: keyMessage,
