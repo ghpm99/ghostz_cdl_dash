@@ -1,5 +1,6 @@
-import { calculateWinRate } from "util/index";
-import styles from "./layout.module.scss";
+import { calculateLeague, calculateWinRate } from 'util'
+
+import styles from './layout.module.scss'
 
 interface ILayoutProps {
     date: string;
@@ -17,12 +18,18 @@ const Layout = (props: ILayoutProps) => {
     const secondTeam = props.team[1];
     const secondCharacter = secondTeam.characteres[0];
 
+    const leagueData = calculateLeague(firstTeam.mmr, secondTeam.mmr);
+    console.log(leagueData);
     return (
         <div className={styles["layout-container"]}>
-            <div className={styles["date"]}>{props.date}</div>
-            <div className={styles["hour"]}>{props.hour}</div>
-            <div className={styles["modality"]}>{props.modality}</div>
-            <div className={styles["league"]}>liga</div>
+            <div className={styles["data-container"]}>
+                <div className={styles["date"]}>{props.date}</div>
+                <div className={styles["hour"]}>{props.hour}</div>
+                <div className={styles["modality"]}>{props.modality}</div>
+                <div className={styles["league"]}>liga</div>
+                <div className={styles["league-range"]}>{leagueData.range}</div>
+                <div className={styles["league-name"]}>{leagueData.name}</div>
+            </div>
             <div className={styles["container"]}>
                 <div className={styles["display-subtitle"]}>
                     <div>MMR</div>
@@ -47,10 +54,7 @@ const Layout = (props: ILayoutProps) => {
                         <div>{firstCharacter.defeats}</div>
                         <div>{firstCharacter.champion}</div>
                         <div>
-                            {calculateWinRate(
-                                parseInt(firstCharacter.matches),
-                                parseInt(firstCharacter.victories)
-                            )}
+                            {calculateWinRate(parseInt(firstCharacter.matches), parseInt(firstCharacter.victories))}
                         </div>
                         <div>{firstTeam.twitch}</div>
                     </div>
@@ -69,10 +73,7 @@ const Layout = (props: ILayoutProps) => {
                         <div>{secondCharacter.defeats}</div>
                         <div>{secondCharacter.champion}</div>
                         <div>
-                            {calculateWinRate(
-                                parseInt(secondCharacter.matches),
-                                parseInt(secondCharacter.victories)
-                            )}
+                            {calculateWinRate(parseInt(secondCharacter.matches), parseInt(secondCharacter.victories))}
                         </div>
                         <div>{secondTeam.twitch}</div>
                     </div>

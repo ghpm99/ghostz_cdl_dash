@@ -1,11 +1,12 @@
-import Background from "./background";
-import Layout from "./layout";
+import Background from './background'
+import Layout from './layout'
 
 interface IDefaultLayoutProps {
     active: any;
 }
 
 const DefaultLayout = (props: IDefaultLayoutProps) => {
+    console.log(props);
     const getBackgroundPlayer = (team) => {
         if (!team) {
             return "";
@@ -39,12 +40,10 @@ const DefaultLayout = (props: IDefaultLayoutProps) => {
             />
             <Background
                 backgroundImage={props.active.background}
-                firstPlayerBackground={getBackgroundPlayer(
-                    props.active.team[0]
-                )}
-                secondPlayerBackground={getBackgroundPlayer(
-                    props.active.team[1]
-                )}
+                firstPlayerName={props.active.team[0]?.characteres[0]?.family}
+                firstPlayerBackground={getBackgroundPlayer(props.active.team[0])}
+                secondePlayerName={props.active.team[1]?.characteres[0]?.family}
+                secondPlayerBackground={getBackgroundPlayer(props.active.team[1])}
             />
         </>
     );

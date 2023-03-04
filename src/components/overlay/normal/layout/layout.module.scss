@@ -1,6 +1,19 @@
-.layout-container{
+.layout-container {
     z-index: 2;
     position: fixed;
+}
+
+.data-container {
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: absolute;
+    left: 735px;
+    top: 0px;
+    width: 450px;
+    height: 410px;
+    font-size: 20px;
 }
 
 .date {
@@ -16,21 +29,27 @@
 }
 
 .modality {
-    position: absolute;
-    left: 830px;
-    top: 20px;
     color: coral;
     font-size: 50px;
     font-family: "Segoe Script";
 }
 
-.league{
-    position: absolute;
-    left: 927px;
-    top: 80px;
-    color:white;
+.league {
+    color: white;
     font-size: 30px;
     text-transform: uppercase;
+}
+
+.league-range {
+    color: white;
+    font-size: 30px;
+    font-family: "Segoe Script";
+}
+
+.league-name {
+    color: coral;
+    font-size: 30px;
+    font-family: "Segoe Script";
 }
 
 .container {
@@ -56,7 +75,7 @@
 
 .first-battle-data {
     position: absolute;
-    top: 145px;
+    top: 144px;
     line-height: 36px;
     right: 305px;
 }
@@ -75,7 +94,7 @@
 .second-battle-data {
     left: -140px;
     position: absolute;
-    top: 143px;
+    top: 144px;
     line-height: 36px;
 }
 
