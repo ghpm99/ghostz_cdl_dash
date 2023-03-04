@@ -1,12 +1,13 @@
-import DuplasLayout from "components/overlay/duplas";
-import DefaultLayout from "components/overlay/normal";
-import { GetServerSideProps } from "next";
-import Pusher from "pusher-js";
-import { useEffect, useState } from "react";
-import { fetchActiveOverlayService } from "services/overlay";
-import styles from "./overlay.module.scss";
-import TriosLayout from "components/overlay/trios";
-import { useRouter } from "next/router";
+import DuplasLayout from 'components/overlay/duplas'
+import DefaultLayout from 'components/overlay/normal'
+import TriosLayout from 'components/overlay/trios'
+import { GetServerSideProps } from 'next'
+import { useRouter } from 'next/router'
+import Pusher from 'pusher-js'
+import { useEffect, useState } from 'react'
+import { fetchActiveOverlayService } from 'services/overlay'
+
+import styles from './overlay.module.scss'
 
 const Overlay = (props) => {
     const router = useRouter();
@@ -19,8 +20,6 @@ const Overlay = (props) => {
         background: "",
         team: [],
     });
-
-    console.log(token);
 
     const onChangeOverlay = (data) => {
         setActive(data.data);

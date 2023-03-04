@@ -19,7 +19,7 @@ const Layout = (props: ILayoutProps) => {
     const secondCharacter = secondTeam.characteres[0];
 
     const leagueData = calculateLeague(firstTeam.mmr, secondTeam.mmr);
-    console.log(leagueData);
+
     return (
         <div className={styles["layout-container"]}>
             <div className={styles["data-container"]}>

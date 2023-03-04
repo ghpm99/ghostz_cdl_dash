@@ -1,4 +1,5 @@
-import styles from "./background.module.scss";
+import styles from './background.module.scss'
+
 interface IBackgroundProps {
     firstTeam: {
         firstCharacter: string;
@@ -11,28 +12,15 @@ interface IBackgroundProps {
 }
 
 const Background = (props: IBackgroundProps) => {
-    console.log("background", props);
     return (
         <div className={styles["background-container"]}>
             <div className={styles["first-team"]}>
-                <img
-                    className={styles["character"]}
-                    src={props.firstTeam.firstCharacter}
-                />
-                <img
-                    className={styles["character"]}
-                    src={props.firstTeam.secondCharacter}
-                />
+                <img className={styles["character"]} src={props.firstTeam.firstCharacter} />
+                <img className={styles["character"]} src={props.firstTeam.secondCharacter} />
             </div>
             <div className={styles["second-team"]}>
-                <img
-                    className={styles["character"]}
-                    src={props.secondTeam.firstCharacter}
-                />
-                <img
-                    className={styles["character"]}
-                    src={props.secondTeam.secondCharacter}
-                />
+                <img className={styles["character"]} src={props.secondTeam.firstCharacter} />
+                <img className={styles["character"]} src={props.secondTeam.secondCharacter} />
             </div>
         </div>
     );

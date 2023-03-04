@@ -6,7 +6,6 @@ interface IDefaultLayoutProps {
 }
 
 const DefaultLayout = (props: IDefaultLayoutProps) => {
-    console.log(props);
     const getBackgroundPlayer = (team) => {
         if (!team) {
             return "";
