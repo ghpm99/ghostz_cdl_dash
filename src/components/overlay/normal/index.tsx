@@ -1,5 +1,5 @@
-import Background from './background'
-import Layout from './layout'
+import Background from "./background";
+import Layout from "./layout";
 
 interface IDefaultLayoutProps {
     active: any;
@@ -35,6 +35,7 @@ const DefaultLayout = (props: IDefaultLayoutProps) => {
                 date={props.active.date}
                 hour={props.active.hour}
                 modality={props.active.modality}
+                league={props.active.league}
                 team={props.active.team}
             />
             <Background

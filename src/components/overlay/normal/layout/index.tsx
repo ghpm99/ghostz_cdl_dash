@@ -1,11 +1,12 @@
-import { calculateLeague, calculateWinRate } from 'util/util'
+import { calculateLeague, calculateWinRate } from "util/util";
 
-import styles from './layout.module.scss'
+import styles from "./layout.module.scss";
 
 interface ILayoutProps {
     date: string;
     hour: string;
     modality: string;
+    league: string;
     team: any[];
 }
 
@@ -26,7 +27,7 @@ const Layout = (props: ILayoutProps) => {
                 <div className={styles["date"]}>{props.date}</div>
                 <div className={styles["hour"]}>{props.hour}</div>
                 <div className={styles["modality"]}>{props.modality}</div>
-                <div className={styles["league"]}>liga</div>
+                <div className={styles["league"]}>{props.league}</div>
                 <div className={styles["league-range"]}>{leagueData.range}</div>
                 <div className={styles["league-name"]}>{leagueData.name}</div>
             </div>
