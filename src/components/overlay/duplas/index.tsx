@@ -1,6 +1,6 @@
-import Background from './background'
-import styles from './duplas.module.scss'
-import Layout from './layout'
+import Background from "./background";
+import styles from "./duplas.module.scss";
+import Layout from "./layout";
 
 interface IDuplasLayoutProps {
     active: any;
@@ -29,11 +29,15 @@ const DuplasLayout = (props: IDuplasLayoutProps) => {
             <Background
                 firstTeam={{
                     firstCharacter: randomClassBackground(firstTeam.characteres[0]).url,
+                    firstCharacterName: firstTeam.characteres[0].family,
                     secondCharacter: randomClassBackground(firstTeam.characteres[1]).url,
+                    secondCharacterName: firstTeam.characteres[1].family,
                 }}
                 secondTeam={{
                     firstCharacter: randomClassBackground(secondTeam.characteres[0]).url,
+                    firstCharacterName: secondTeam.characteres[0].family,
                     secondCharacter: randomClassBackground(secondTeam.characteres[1]).url,
+                    secondCharacterName: secondTeam.characteres[1].family,
                 }}
             />
         </div>
