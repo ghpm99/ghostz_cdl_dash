@@ -42,7 +42,7 @@ const DefaultLayout = (props: IDefaultLayoutProps) => {
                 backgroundImage={props.active.background}
                 firstPlayerName={props.active.team[0]?.characteres[0]?.family}
                 firstPlayerBackground={getBackgroundPlayer(props.active.team[0])}
-                secondePlayerName={props.active.team[1]?.characteres[0]?.family}
+                secondPlayerName={props.active.team[1]?.characteres[0]?.family}
                 secondPlayerBackground={getBackgroundPlayer(props.active.team[1])}
             />
         </>
