@@ -1,6 +1,6 @@
-import Background from './background'
-import Layout from './layout'
-import styles from './trios.module.scss'
+import Background from "./background";
+import Layout from "./layout";
+import styles from "./trios.module.scss";
 
 interface ITriosLayoutProps {
     active: any;
@@ -29,13 +29,19 @@ const TriosLayout = (props: ITriosLayoutProps) => {
             <Background
                 firstTeam={{
                     firstCharacter: randomClassBackground(firstTeam.characteres[0]).url,
+                    firstCharacterName: firstTeam.characteres[0].family,
                     secondCharacter: randomClassBackground(firstTeam.characteres[1]).url,
+                    secondCharacterName: firstTeam.characteres[1].family,
                     thirdCharacter: randomClassBackground(firstTeam.characteres[2]).url,
+                    thirdCharacterName: firstTeam.characteres[2].family,
                 }}
                 secondTeam={{
                     firstCharacter: randomClassBackground(secondTeam.characteres[0]).url,
+                    firstCharacterName: secondTeam.characteres[0].family,
                     secondCharacter: randomClassBackground(secondTeam.characteres[1]).url,
+                    secondCharacterName: secondTeam.characteres[1].family,
                     thirdCharacter: randomClassBackground(secondTeam.characteres[2]).url,
+                    thirdCharacterName: secondTeam.characteres[2].family,
                 }}
             />
         </div>

@@ -16,28 +16,28 @@ const Background = (props: IBackgroundProps) => {
                 loop
                 muted
                 autoPlay
-                key={`firstPlayerBackground-${props.firstPlayerName}`}
-                className={styles["first-player"]}
                 width={"732px"}
-                height={"1080px"}>
+                height={"1080px"}
+                className={styles["first-player"]}
+                key={`firstPlayerBackground-${props.firstPlayerName}`}>
                 <source
-                    key={`firstPlayerBackground-${props.firstPlayerName}`}
-                    src={props.firstPlayerBackground}
                     type="video/mp4"
+                    src={props.firstPlayerBackground}
+                    key={`firstPlayerBackground-${props.firstPlayerName}`}
                 />
             </video>
             <video
                 loop
                 muted
                 autoPlay
-                key={`secondPlayerBackground-${props.secondPlayerName}`}
-                className={styles["second-player"]}
                 width={"732px"}
-                height={"1080px"}>
+                height={"1080px"}
+                className={styles["second-player"]}
+                key={`secondPlayerBackground-${props.secondPlayerName}`}>
                 <source
-                    key={`secondPlayerBackground-${props.secondPlayerName}`}
-                    src={props.secondPlayerBackground}
                     type="video/mp4"
+                    src={props.secondPlayerBackground}
+                    key={`secondPlayerBackground-${props.secondPlayerName}`}
                 />
             </video>
         </div>
