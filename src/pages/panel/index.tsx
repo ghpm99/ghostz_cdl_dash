@@ -1,19 +1,19 @@
-import { DesktopOutlined, PieChartOutlined, UserOutlined } from '@ant-design/icons'
-import { Breadcrumb, Button, Layout, Menu, MenuProps, message, Table, Tag, theme } from 'antd'
-import cdlLogo from 'assets/Logo_Clube_Small.png'
-import ModalImportJSON from 'components/modal'
-import Image from 'next/image'
-import Router from 'next/router'
-import { useEffect, useState } from 'react'
-import TokenService from 'services/auth/authToken'
+import { DesktopOutlined, PieChartOutlined, UserOutlined } from "@ant-design/icons";
+import { Breadcrumb, Button, Layout, Menu, MenuProps, message, Table, Tag, theme } from "antd";
+import cdlLogo from "assets/Logo_Clube_Small.png";
+import ModalImportJSON from "components/modal";
+import Image from "next/image";
+import Router from "next/router";
+import { useEffect, useState } from "react";
+import TokenService from "services/auth/authToken";
 import {
     fetchChangeOverlayActiveService,
     fetchImportJsonService,
     fetchOverlayService,
     reloadOverlayService,
-} from 'services/panel'
+} from "services/panel";
 
-import styles from './panel.module.scss'
+import styles from "./panel.module.scss";
 
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -100,6 +100,20 @@ const Panel = () => {
         return `Time: ${teamName} Jogadores: ${characterName}`;
     };
 
+    const updateActiveProperty = (id) => {
+        const target = dataSource.find((item) => item.id === id);
+        target.active = true;
+        const newDataSource = dataSource
+            .filter((item) => item.id !== id)
+            .map((item) => ({
+                ...item,
+                active: false,
+            }));
+        newDataSource.push(target);
+        newDataSource.sort((a, b) => a.id - b.id);
+        setDataSource(newDataSource);
+    };
+
     const changeOverlayActive = (id) => {
         message.loading({
             key: keyMessage,
@@ -111,7 +125,7 @@ const Panel = () => {
                     key: keyMessage,
                     content: response.data.status,
                 });
-                updateDataSource();
+                updateActiveProperty(id);
             })
             .catch((reason) => {
                 message.error({
