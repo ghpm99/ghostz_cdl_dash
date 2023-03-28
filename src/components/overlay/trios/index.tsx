@@ -11,9 +11,7 @@ const TriosLayout = (props: ITriosLayoutProps) => {
     const secondTeam = props.active.team[1];
 
     const randomClassBackground = (character) => {
-        const images = character.media.images.filter(
-            (image) => image.awakening === (character.combat_style === "Despertar")
-        );
+        const images = character.media.images;
         if (images.length === 0) {
             return "";
         }

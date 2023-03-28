@@ -16,10 +16,6 @@ const DefaultLayout = (props: IDefaultLayoutProps) => {
             return "";
         }
 
-        if (character.custom.video.length > 1) {
-            return character.custom.video;
-        }
-
         if (character.combat_style === "Despertar") {
             return character.media.video_awakening;
         } else if (character.combat_style === "Sucessao") {
