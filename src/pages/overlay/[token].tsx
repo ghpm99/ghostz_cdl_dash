@@ -1,13 +1,14 @@
-import DuplasLayout from 'components/overlay/duplas'
-import DefaultLayout from 'components/overlay/normal'
-import TriosLayout from 'components/overlay/trios'
-import { GetServerSideProps } from 'next'
-import { useRouter } from 'next/router'
-import Pusher from 'pusher-js'
-import { useEffect, useState } from 'react'
-import { fetchActiveOverlayService } from 'services/overlay'
+import DuplasLayout from "components/overlay/duplas";
+import DefaultLayout from "components/overlay/normal";
+import StreetFighterLayout from "components/overlay/streetFighter";
+import TriosLayout from "components/overlay/trios";
+import { GetServerSideProps } from "next";
+import { useRouter } from "next/router";
+import Pusher from "pusher-js";
+import { useEffect, useState } from "react";
+import { fetchActiveOverlayService } from "services/overlay";
 
-import styles from './overlay.module.scss'
+import styles from "./overlay.module.scss";
 
 const Overlay = (props) => {
     const router = useRouter();
@@ -70,6 +71,14 @@ const Overlay = (props) => {
         return (
             <div className={styles["container"]}>
                 <TriosLayout active={active} />
+            </div>
+        );
+    }
+
+    if (active.modality === "STREET FIGHTER") {
+        return (
+            <div className={styles["container"]}>
+                <StreetFighterLayout active={active} />
             </div>
         );
     }

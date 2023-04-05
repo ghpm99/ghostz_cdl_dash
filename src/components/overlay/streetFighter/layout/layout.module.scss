@@ -1,0 +1,108 @@
+.layout-container {
+    z-index: 2;
+    position: fixed;
+}
+
+.data-container {
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: absolute;
+    left: 735px;
+    top: 0px;
+    width: 450px;
+    height: 410px;
+    font-size: 20px;
+}
+
+.date {
+    position: absolute;
+    left: 920px;
+    display: none;
+}
+
+.hour {
+    position: absolute;
+    left: 920px;
+    display: none;
+}
+
+.modality {
+    color: coral;
+    font-size: 50px;
+    font-family: "Segoe Script";
+}
+
+.league {
+    color: white;
+    font-size: 30px;
+    text-transform: uppercase;
+}
+
+.league-range {
+    color: white;
+    font-size: 30px;
+    font-family: "Segoe Script";
+}
+
+.league-name {
+    color: coral;
+    font-size: 30px;
+    font-family: "Segoe Script";
+}
+
+.container {
+    color: white;
+    position: absolute;
+    left: 735px;
+    top: 230px;
+    width: 450px;
+    height: 410px;
+    display: flex;
+    font-size: 20px;
+}
+
+.first-player {
+    text-align: end;
+}
+
+.first-personal-data {
+    right: 245px;
+    position: absolute;
+    line-height: 30px;
+}
+
+.first-battle-data {
+    position: absolute;
+    top: 144px;
+    line-height: 36px;
+    right: 305px;
+}
+
+.second-player {
+    position: absolute;
+    right: 0px;
+}
+
+.second-personal-data {
+    position: absolute;
+    left: -200px;
+    line-height: 30px;
+}
+
+.second-battle-data {
+    left: -140px;
+    position: absolute;
+    top: 144px;
+    line-height: 36px;
+}
+
+.display-subtitle {
+    text-transform: uppercase;
+    position: absolute;
+    left: 175px;
+    top: 142px;
+    text-align: center;
+    line-height: 36px;
+}

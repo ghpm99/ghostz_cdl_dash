@@ -2,12 +2,14 @@ import { DesktopOutlined, PieChartOutlined, UserOutlined } from "@ant-design/ico
 import { Breadcrumb, Button, Layout, Menu, MenuProps, message, Table, Tag, theme } from "antd";
 import cdlLogo from "assets/Logo_Clube_Small.png";
 import ModalImportJSON from "components/modal";
+import ModalEditTeam from "components/modalEditTeam";
 import Image from "next/image";
 import Router from "next/router";
 import { useEffect, useState } from "react";
 import TokenService from "services/auth/authToken";
 import {
     fetchChangeOverlayActiveService,
+    fetchClassService,
     fetchImportJsonService,
     fetchOverlayService,
     reloadOverlayService,
@@ -39,7 +41,11 @@ const keyMessage = "PANEL_KEY_MESSAGE";
 const Panel = () => {
     const [collapsed, setCollapsed] = useState(false);
     const [openModal, setOpenModal] = useState(false);
+    const [openModalEditTeam, setOpenModalEditTeam] = useState(false);
+    const [modalEditTeamData, setModalEditTeamData] = useState();
     const [dataSource, setDataSource] = useState([]);
+    const [bdoClassOptions, setBdoClassOptions] = useState([]);
+
     const {
         token: { colorBgContainer },
     } = theme.useToken();
@@ -84,11 +90,22 @@ const Panel = () => {
             });
     };
 
+    const updateClassData = () => {
+        fetchClassService().then((response) => {
+            const options = response.data.data.map((option) => ({
+                value: option.id,
+                label: option.name,
+            }));
+            setBdoClassOptions(options);
+        });
+    };
+
     useEffect(() => {
         if (!TokenService.getToken()) {
             Router.push("/signin");
         }
         updateDataSource();
+        updateClassData();
     }, []);
 
     const teamRenderName = (team) => {
@@ -173,6 +190,20 @@ const Panel = () => {
             value: item,
         }));
 
+    const openModalEditTeamEvent = (record) => {
+        console.log(record);
+        setModalEditTeamData(record);
+        toggleModalEditTeam();
+    };
+
+    const toggleModalEditTeam = () => {
+        setOpenModalEditTeam((prev) => !prev);
+    };
+
+    const editTeamEvent = (e) => {
+        console.log(e);
+    };
+
     return (
         <Layout style={{ minHeight: "100vh" }}>
             <Sider
@@ -242,17 +273,25 @@ const Panel = () => {
                                     title: "Jogador/Time 1",
                                     dataIndex: "player1",
                                     key: "player1",
-                                    render(value, record, index) {
-                                        return teamRenderName(record.team[0]);
-                                    },
+                                    render: (value, record, index) => (
+                                        <div
+                                            className={styles["action"]}
+                                            onClick={() => openModalEditTeamEvent(record.team[0])}>
+                                            {teamRenderName(record.team[0])}
+                                        </div>
+                                    ),
                                 },
                                 {
                                     title: "Jogador/Time 2",
                                     dataIndex: "player2",
                                     key: "player2",
-                                    render(value, record, index) {
-                                        return teamRenderName(record.team[1]);
-                                    },
+                                    render: (value, record, index) => (
+                                        <div
+                                            className={styles["action"]}
+                                            onClick={() => openModalEditTeamEvent(record.team[1])}>
+                                            {teamRenderName(record.team[1])}
+                                        </div>
+                                    ),
                                 },
                                 {
                                     title: "Data",
@@ -286,6 +325,14 @@ const Panel = () => {
                 <Footer style={{ textAlign: "center" }}>Ant Design ©2023 Created by Ant UED</Footer>
             </Layout>
             <ModalImportJSON open={openModal} toggle={toggleModal} onOk={importJSONEvent} />
+            <ModalEditTeam
+                open={openModalEditTeam}
+                data={modalEditTeamData}
+                setData={setModalEditTeamData}
+                classOptions={bdoClassOptions}
+                toggle={toggleModalEditTeam}
+                onOk={editTeamEvent}
+            />
         </Layout>
     );
 };

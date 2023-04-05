@@ -1,0 +1,24 @@
+.background-container {
+    z-index: 1;
+    position: relative;
+}
+
+.background {
+    z-index: 2;
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+
+.first-player {
+    z-index: 1;
+    position: absolute;
+    left: 0;
+}
+
+.second-player {
+    z-index: 1;
+    position: absolute;
+    right: 0;
+    transform: scaleX(-1);
+}

@@ -27,8 +27,17 @@ export async function fetchChangeOverlayActiveService(id) {
     };
 }
 
-export async function reloadOverlayService(){
+export async function reloadOverlayService() {
     const response = await api.post(`/overlay/reload/`);
+    return {
+        status: response.status,
+        statusText: response.statusText,
+        data: response.data,
+    };
+}
+
+export async function fetchClassService() {
+    const response = await api.get("/overlay/get-class/");
     return {
         status: response.status,
         statusText: response.statusText,
