@@ -13,6 +13,7 @@ import {
     fetchImportJsonService,
     fetchOverlayService,
     reloadOverlayService,
+    updateTeamService,
 } from "services/panel";
 
 import styles from "./panel.module.scss";
@@ -42,8 +43,8 @@ const Panel = () => {
     const [collapsed, setCollapsed] = useState(false);
     const [openModal, setOpenModal] = useState(false);
     const [openModalEditTeam, setOpenModalEditTeam] = useState(false);
-    const [modalEditTeamData, setModalEditTeamData] = useState();
-    const [dataSource, setDataSource] = useState([]);
+    const [modalEditTeamData, setModalEditTeamData] = useState<ITeamOverlayPanel>();
+    const [dataSource, setDataSource] = useState<IOverlayPanel[]>([]);
     const [bdoClassOptions, setBdoClassOptions] = useState([]);
 
     const {
@@ -191,7 +192,6 @@ const Panel = () => {
         }));
 
     const openModalEditTeamEvent = (record) => {
-        console.log(record);
         setModalEditTeamData(record);
         toggleModalEditTeam();
     };
@@ -200,10 +200,23 @@ const Panel = () => {
         setOpenModalEditTeam((prev) => !prev);
     };
 
-    const editTeamEvent = (e) => {
-        console.log(e);
+    const saveModalEditTeam = (data: ITeamOverlayPanel) => {
+        updateTeamService(data)
+            .then((response) => {
+                setOpenModalEditTeam(false);
+                message.success({
+                    key: keyMessage,
+                    content: response.data.status,
+                });
+                reloadOverlay();
+            })
+            .catch((reason) => {
+                message.error({
+                    key: keyMessage,
+                    content: reason.response?.data?.status ?? "Falhou ao atualizar time!",
+                });
+            });
     };
-
     return (
         <Layout style={{ minHeight: "100vh" }}>
             <Sider
@@ -328,10 +341,9 @@ const Panel = () => {
             <ModalEditTeam
                 open={openModalEditTeam}
                 data={modalEditTeamData}
-                setData={setModalEditTeamData}
+                onOk={saveModalEditTeam}
                 classOptions={bdoClassOptions}
                 toggle={toggleModalEditTeam}
-                onOk={editTeamEvent}
             />
         </Layout>
     );
