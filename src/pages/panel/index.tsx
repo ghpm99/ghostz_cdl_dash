@@ -46,6 +46,8 @@ const Panel = () => {
     const [modalEditTeamData, setModalEditTeamData] = useState<ITeamOverlayPanel>();
     const [dataSource, setDataSource] = useState<IOverlayPanel[]>([]);
     const [bdoClassOptions, setBdoClassOptions] = useState([]);
+    const [buttonLoading, setButtonLoading] = useState(false);
+    const [modalEditLoading, setModalEditLoading] = useState(false);
 
     const {
         token: { colorBgContainer },
@@ -133,6 +135,7 @@ const Panel = () => {
     };
 
     const changeOverlayActive = (id) => {
+        setButtonLoading(true);
         message.loading({
             key: keyMessage,
             content: "Ativando overlay...",
@@ -150,6 +153,9 @@ const Panel = () => {
                     key: keyMessage,
                     content: reason.response.data.status ?? "Falhou em ativar overlay!",
                 });
+            })
+            .finally(() => {
+                setButtonLoading(false);
             });
     };
 
@@ -201,6 +207,7 @@ const Panel = () => {
     };
 
     const saveModalEditTeam = (data: ITeamOverlayPanel) => {
+        setModalEditLoading(true);
         updateTeamService(data)
             .then((response) => {
                 setOpenModalEditTeam(false);
@@ -215,6 +222,9 @@ const Panel = () => {
                     key: keyMessage,
                     content: reason.response?.data?.status ?? "Falhou ao atualizar time!",
                 });
+            })
+            .finally(() => {
+                setModalEditLoading(false);
             });
     };
     return (
@@ -277,9 +287,12 @@ const Panel = () => {
                                     dataIndex: "id",
                                     key: "id",
                                     render: (value) => (
-                                        <div className={styles["action"]} onClick={() => changeOverlayActive(value)}>
-                                            Ativar overlay
-                                        </div>
+                                        <Button
+                                            type="primary"
+                                            loading={buttonLoading}
+                                            onClick={() => changeOverlayActive(value)}>
+                                            Ativar
+                                        </Button>
                                     ),
                                 },
                                 {
@@ -344,6 +357,7 @@ const Panel = () => {
                 onOk={saveModalEditTeam}
                 classOptions={bdoClassOptions}
                 toggle={toggleModalEditTeam}
+                loading={modalEditLoading}
             />
         </Layout>
     );

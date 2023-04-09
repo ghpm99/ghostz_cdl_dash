@@ -25,6 +25,19 @@ const DefaultLayout = (props: IDefaultLayoutProps) => {
         }
     };
 
+    const generateKey = (character) => {
+        if (!character) {
+            return "c32d8b45-92fe-44f6-8b61-42c2107dfe87";
+        }
+
+        const family = character.family ?? "c32d8b45";
+        const name = character.name ?? "92fe";
+        const combatStyle = character.combat_style ?? "44f6";
+        const bdoClass = character.bdo_class ?? "8b61";
+
+        return family + name + combatStyle + bdoClass;
+    };
+
     return (
         <>
             <Layout
@@ -36,9 +49,9 @@ const DefaultLayout = (props: IDefaultLayoutProps) => {
             />
             <Background
                 backgroundImage={props.active.background}
-                firstPlayerName={props.active.team[0]?.characteres[0]?.family}
+                firstPlayerName={generateKey(props.active.team[0]?.characteres[0])}
                 firstPlayerBackground={getBackgroundPlayer(props.active.team[0])}
-                secondPlayerName={props.active.team[1]?.characteres[0]?.family}
+                secondPlayerName={generateKey(props.active.team[1]?.characteres[0])}
                 secondPlayerBackground={getBackgroundPlayer(props.active.team[1])}
             />
         </>

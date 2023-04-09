@@ -11,6 +11,7 @@ interface IModalEditTeamProps {
     data: ITeamOverlayPanel;
     onOk: (data: ITeamOverlayPanel) => void;
     classOptions: any[];
+    loading: boolean;
 }
 
 const ModalEditTeam = (props: IModalEditTeamProps) => {
@@ -99,6 +100,7 @@ const ModalEditTeam = (props: IModalEditTeamProps) => {
             title="Editar Time"
             open={props.open}
             onCancel={props.toggle}
+            confirmLoading={props.loading}
             onOk={() => {
                 props.onOk(dataSource);
             }}>
