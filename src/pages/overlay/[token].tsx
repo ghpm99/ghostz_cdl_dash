@@ -19,11 +19,19 @@ const Overlay = (props) => {
         hour: "",
         modality: "",
         background: "",
+        type: "",
         team: [],
     });
 
     const onChangeOverlay = (data) => {
         setActive(data.data);
+    };
+
+    const onChangeOverlayType = (data) => {
+        setActive((prev) => ({
+            ...prev,
+            type: data.data,
+        }));
     };
 
     useEffect(() => {
@@ -54,12 +62,13 @@ const Overlay = (props) => {
 
         const channel = pusher.subscribe("private-overlay");
         channel.bind("overlay", onChangeOverlay);
+        channel.bind("overlay_type", onChangeOverlayType);
         return () => {
             pusher.unsubscribe("private-overlay");
         };
     }, []);
 
-    if (active.modality === "DUPLAS") {
+    if (active.type === "x2_bdo") {
         return (
             <div className={styles["container"]}>
                 <DuplasLayout active={active} />
@@ -67,7 +76,7 @@ const Overlay = (props) => {
         );
     }
 
-    if (active.modality === "TRIOS") {
+    if (active.type === "x3_bdo") {
         return (
             <div className={styles["container"]}>
                 <TriosLayout active={active} />
@@ -75,7 +84,7 @@ const Overlay = (props) => {
         );
     }
 
-    if (active.modality === "STREET FIGHTER") {
+    if (active.type === "street_fighter") {
         return (
             <div className={styles["container"]}>
                 <StreetFighterLayout active={active} />

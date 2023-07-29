@@ -1,5 +1,5 @@
 import { DesktopOutlined, PieChartOutlined, UserOutlined } from "@ant-design/icons";
-import { Breadcrumb, Button, Layout, Menu, MenuProps, message, Table, Tag, theme } from "antd";
+import { Breadcrumb, Button, Layout, Menu, MenuProps, message, Select, Table, Tag, theme } from "antd";
 import cdlLogo from "assets/Logo_Clube_Small.png";
 import ModalImportJSON from "components/modal";
 import ModalEditTeam from "components/modalEditTeam";
@@ -12,13 +12,16 @@ import {
     fetchClassService,
     fetchImportJsonService,
     fetchOverlayService,
+    fetchOverlayTypesService,
     reloadOverlayService,
+    updateOverlayTypeService,
     updateTeamService,
 } from "services/panel";
 
 import styles from "./panel.module.scss";
 
 const { Header, Content, Footer, Sider } = Layout;
+const { Option } = Select;
 
 type MenuItem = Required<MenuProps>["items"][number];
 
@@ -45,6 +48,7 @@ const Panel = () => {
     const [openModalEditTeam, setOpenModalEditTeam] = useState(false);
     const [modalEditTeamData, setModalEditTeamData] = useState<ITeamOverlayPanel>();
     const [dataSource, setDataSource] = useState<IOverlayPanel[]>([]);
+    const [overlayTypeData, setOverlayTypeData] = useState([]);
     const [bdoClassOptions, setBdoClassOptions] = useState([]);
     const [buttonLoading, setButtonLoading] = useState(false);
     const [modalEditLoading, setModalEditLoading] = useState(false);
@@ -103,12 +107,23 @@ const Panel = () => {
         });
     };
 
+    const updateOverlayTypeData = () => {
+        fetchOverlayTypesService().then((response) => {
+            const options = response.data.map((option) => ({
+                value: option.id,
+                label: option.name,
+            }));
+            setOverlayTypeData(options);
+        });
+    };
+
     useEffect(() => {
         if (!TokenService.getToken()) {
             Router.push("/signin");
         }
         updateDataSource();
         updateClassData();
+        updateOverlayTypeData();
     }, []);
 
     const teamRenderName = (team) => {
@@ -227,6 +242,22 @@ const Panel = () => {
                 setModalEditLoading(false);
             });
     };
+
+    const changeOverlayType = (value) => {
+        updateOverlayTypeService(value)
+            .then((response) => {
+                message.success({
+                    key: keyMessage,
+                    content: response.status,
+                });
+            })
+            .catch((reason) => {
+                message.error({
+                    key: keyMessage,
+                    content: reason.response?.data?.status ?? "Falhou ao atualizar overlay!",
+                });
+            });
+    };
     return (
         <Layout style={{ minHeight: "100vh" }}>
             <Sider
@@ -264,6 +295,7 @@ const Panel = () => {
                             <Button type="primary" onClick={toggleModal}>
                                 Carregar JSON
                             </Button>
+                            <Select onChange={changeOverlayType} style={{ width: 220 }} options={overlayTypeData} />
                             <Button type="default" onClick={reloadOverlay}>
                                 Recarregar overlay
                             </Button>

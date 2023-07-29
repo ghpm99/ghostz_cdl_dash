@@ -53,3 +53,13 @@ export async function updateTeamService(data) {
         data: response.data,
     };
 }
+
+export async function fetchOverlayTypesService() {
+    const response = await api.get("/overlay/get-overlay-types/");
+    return response.data;
+}
+
+export async function updateOverlayTypeService(data) {
+    const response = await api.post("/overlay/update-overlay-type/", data);
+    return response.data;
+}

@@ -11,8 +11,8 @@ const DuplasLayout = (props: IDuplasLayoutProps) => {
     const secondTeam = props.active.team[1];
 
     const randomClassBackground = (character) => {
-        const images = character.media.images;
-        if (images.length === 0) {
+        const images = character?.media?.images;
+        if (!images || images.length === 0) {
             return "";
         }
 

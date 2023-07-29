@@ -1,4 +1,4 @@
-import styles from './layout.module.scss'
+import styles from "./layout.module.scss";
 
 interface ILayoutProps {
     firstTeam: any;
@@ -15,7 +15,7 @@ const Layout = (props: ILayoutProps) => {
                         <div className={styles["character-name"]}>{props.firstTeam.characteres[0].family}</div>
                     </div>
                     <div className={styles["second-character"]}>
-                        <div className={styles["character-name"]}>{props.firstTeam.characteres[1].family}</div>
+                        <div className={styles["character-name"]}>{props.firstTeam.characteres[1]?.family ?? ""}</div>
                     </div>
                 </div>
             </div>
@@ -26,7 +26,7 @@ const Layout = (props: ILayoutProps) => {
                         <div className={styles["character-name"]}>{props.secondTeam.characteres[0].family}</div>
                     </div>
                     <div className={styles["fourth-character"]}>
-                        <div className={styles["character-name"]}>{props.secondTeam.characteres[1].family}</div>
+                        <div className={styles["character-name"]}>{props.secondTeam.characteres[1]?.family ?? ""}</div>
                     </div>
                 </div>
             </div>
