@@ -1,0 +1,17 @@
+.container {
+    position: relative;
+    width: 1920px;
+    height: 1080px;
+}
+
+.title-video {
+    background-color: gray;
+    color: white;
+    padding: 27px;
+    border-radius: 6px 0 0 6px;
+    font-size: 20px;
+    position: absolute;
+    bottom: 15px;
+    right: 0;
+    float: right;
+}
