@@ -18,7 +18,7 @@ import {
     updateTeamService,
 } from "services/panel";
 
-import styles from "./panel.module.scss";
+import styles from "./youtube.module.scss";
 import Link from "next/link";
 
 const { Header, Content, Footer, Sider } = Layout;
@@ -41,9 +41,9 @@ const items: MenuItem[] = [
     getItem("Configurações", "sub1", <UserOutlined />, [getItem(<Link href={"/settings/youtube"}>Youtube</Link>, "3")]),
 ];
 
-const keyMessage = "PANEL_KEY_MESSAGE";
+const keyMessage = "YOUTUBE_KEY_MESSAGE";
 
-const Panel = () => {
+const YoutubeSettings = () => {
     const [collapsed, setCollapsed] = useState(false);
     const [openModal, setOpenModal] = useState(false);
     const [openModalEditTeam, setOpenModalEditTeam] = useState(false);
@@ -284,7 +284,8 @@ const Panel = () => {
                 <Content style={{ margin: "0 16px" }}>
                     <Breadcrumb style={{ margin: "16px 0" }}>
                         <Breadcrumb.Item>CDL</Breadcrumb.Item>
-                        <Breadcrumb.Item>Painel</Breadcrumb.Item>
+                        <Breadcrumb.Item>Configurações</Breadcrumb.Item>
+                        <Breadcrumb.Item>Youtube</Breadcrumb.Item>
                     </Breadcrumb>
                     <div
                         style={{
@@ -396,4 +397,4 @@ const Panel = () => {
     );
 };
 
-export default Panel;
+export default YoutubeSettings;
