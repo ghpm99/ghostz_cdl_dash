@@ -37,7 +37,7 @@ function getItem(label: React.ReactNode, key: React.Key, icon?: React.ReactNode,
 const items: MenuItem[] = [
     getItem("Painel", "1", <PieChartOutlined />),
     getItem("Overlay", "2", <DesktopOutlined />),
-    getItem("Configurações", "sub1", <UserOutlined />, [getItem("Tom", "3")]),
+    getItem("Configurações", "sub1", <UserOutlined />, [getItem("Youtube", "3")]),
 ];
 
 const keyMessage = "PANEL_KEY_MESSAGE";
