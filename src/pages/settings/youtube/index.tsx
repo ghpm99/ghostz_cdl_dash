@@ -1,12 +1,12 @@
 import { DesktopOutlined, PieChartOutlined, UserOutlined } from "@ant-design/icons";
-import { Breadcrumb, Button, Layout, Menu, MenuProps, Select, theme } from "antd";
+import { Breadcrumb, Button, Input, Layout, Menu, MenuProps, Select, theme } from "antd";
 import cdlLogo from "assets/Logo_Clube_Small.png";
 import Image from "next/image";
 import { useState } from "react";
 
 import Link from "next/link";
 import styles from "./youtube.module.scss";
-import { fetchUrlOAuthYoutube } from "services/youtube";
+import { fetchUrlOAuthYoutube, loadPlaylist } from "services/youtube";
 
 const { Header, Content, Footer, Sider } = Layout;
 const { Option } = Select;
@@ -32,6 +32,7 @@ const keyMessage = "YOUTUBE_KEY_MESSAGE";
 
 const YoutubeSettings = () => {
     const [collapsed, setCollapsed] = useState(false);
+    const [playlistId, setPlayListId] = useState("");
 
     const {
         token: { colorBgContainer },
@@ -39,6 +40,10 @@ const YoutubeSettings = () => {
 
     const loginYoutube = () => {
         fetchUrlOAuthYoutube().then((response) => window.location.assign(response.url));
+    };
+
+    const loadPlaylistHandler = () => {
+        loadPlaylist(playlistId).then((response) => console.log(response));
     };
 
     return (
@@ -76,8 +81,13 @@ const YoutubeSettings = () => {
                             background: colorBgContainer,
                         }}>
                         <Button onClick={loginYoutube} type="primary">
-                            Logar youtube
+                            Logar no Youtube
                         </Button>
+                        <div>
+                            PlayList ID:
+                            <Input value={playlistId} onChange={(event) => setPlayListId(event.target.value)} />
+                        </div>
+                        <Button onClick={loadPlaylistHandler}>Carregar playlist</Button>
                     </div>
                 </Content>
                 <Footer style={{ textAlign: "center" }}>Ant Design ©2023 Created by Ant UED</Footer>
