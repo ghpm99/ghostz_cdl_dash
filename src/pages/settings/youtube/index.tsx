@@ -1,12 +1,12 @@
 import { DesktopOutlined, PieChartOutlined, UserOutlined } from "@ant-design/icons";
-import { Breadcrumb, Button, Input, Layout, Menu, MenuProps, Select, theme } from "antd";
+import { Breadcrumb, Button, Input, Layout, Menu, MenuProps, Select, Table, message, theme } from "antd";
 import cdlLogo from "assets/Logo_Clube_Small.png";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import Link from "next/link";
 import styles from "./youtube.module.scss";
-import { fetchUrlOAuthYoutube, loadPlaylist } from "services/youtube";
+import { fetchUrlOAuthYoutube, fetchYoutubePlaylist, loadPlaylist } from "services/youtube";
 
 const { Header, Content, Footer, Sider } = Layout;
 const { Option } = Select;
@@ -33,6 +33,7 @@ const keyMessage = "YOUTUBE_KEY_MESSAGE";
 const YoutubeSettings = () => {
     const [collapsed, setCollapsed] = useState(false);
     const [playlistId, setPlayListId] = useState("");
+    const [youtubePlaylistData, setYoutubePlaylistData] = useState([]);
 
     const {
         token: { colorBgContainer },
@@ -43,7 +44,32 @@ const YoutubeSettings = () => {
     };
 
     const loadPlaylistHandler = () => {
-        loadPlaylist(playlistId).then((response) => console.log(response));
+        message.loading({
+            content: "Importanto Playlist " + playlistId,
+            key: keyMessage,
+        });
+        loadPlaylist(playlistId)
+            .then((response) => {
+                message.success({
+                    content: response.msg,
+                    key: keyMessage,
+                });
+                updateYoutubePlaylistData();
+            })
+            .catch((reason) =>
+                message.error({
+                    content: reason.response.msg ?? "Falhou em importar playlist",
+                    key: keyMessage,
+                })
+            );
+    };
+
+    useEffect(() => {
+        updateYoutubePlaylistData();
+    }, []);
+
+    const updateYoutubePlaylistData = () => {
+        fetchYoutubePlaylist().then((response) => setYoutubePlaylistData(response.data));
     };
 
     return (
@@ -88,6 +114,26 @@ const YoutubeSettings = () => {
                             <Input value={playlistId} onChange={(event) => setPlayListId(event.target.value)} />
                         </div>
                         <Button onClick={loadPlaylistHandler}>Carregar playlist</Button>
+                        <Table
+                            columns={[
+                                {
+                                    title: "ID",
+                                    dataIndex: "youtube_id",
+                                    key: "youtube_id",
+                                },
+                                {
+                                    title: "Titulo",
+                                    dataIndex: "title",
+                                    key: "title",
+                                },
+                                {
+                                    title: "Numero de videos",
+                                    dataIndex: "count",
+                                    key: "count",
+                                },
+                            ]}
+                            dataSource={youtubePlaylistData}
+                        />
                     </div>
                 </Content>
                 <Footer style={{ textAlign: "center" }}>Ant Design ©2023 Created by Ant UED</Footer>

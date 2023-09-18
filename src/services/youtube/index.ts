@@ -13,3 +13,8 @@ export async function loadPlaylist(playlistId: string) {
     });
     return response.data;
 }
+
+export async function fetchYoutubePlaylist() {
+    const response = await api.get("/youtube/youtube-playlist/");
+    return response.data;
+}
