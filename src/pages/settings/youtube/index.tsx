@@ -1,5 +1,5 @@
 import { DesktopOutlined, PieChartOutlined, UserOutlined } from "@ant-design/icons";
-import { Breadcrumb, Button, Input, Layout, Menu, MenuProps, Select, Table, message, theme } from "antd";
+import { Breadcrumb, Button, Input, Layout, Menu, MenuProps, Select, Table, Tag, message, theme } from "antd";
 import cdlLogo from "assets/Logo_Clube_Small.png";
 import Image from "next/image";
 import { useEffect, useState } from "react";
@@ -130,6 +130,21 @@ const YoutubeSettings = () => {
                                     title: "Numero de videos",
                                     dataIndex: "count",
                                     key: "count",
+                                },
+                                {
+                                    title: "Ativo",
+                                    dataIndex: "active",
+                                    key: "active",
+                                    render: (value) => {
+                                        let color = value ? "geekblue" : "volcano";
+                                        return <Tag color={color}>{value ? "Ativo" : "Inativo"}</Tag>;
+                                    },
+                                },
+                                {
+                                    title: "Ações",
+                                    dataIndex: "id",
+                                    key: "id",
+                                    render: (value) => <Button type="primary">Ativar</Button>,
                                 },
                             ]}
                             dataSource={youtubePlaylistData}
