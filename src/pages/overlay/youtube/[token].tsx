@@ -1,13 +1,28 @@
 import { useRouter } from "next/router";
-import { ReactEventHandler, useState } from "react";
+import { useEffect, useState } from "react";
 import YouTube from "react-youtube";
+import { fetchActiveYoutubePlaylistService } from "services/youtube";
 import styles from "./youtube.module.scss";
 
 const OverlayYoutube = () => {
     const router = useRouter();
     const { token } = router.query;
 
-    const [videoId, setVideoId] = useState("mIu2gW0SuqE");
+    const [video, setVideo] = useState<{ youtube_id: string; title: string; position: number }>({
+        youtube_id: "",
+        title: "",
+        position: 0,
+    });
+    const [playlist, setPlaylist] = useState([]);
+
+    useEffect(() => {
+        if (token)
+            fetchActiveYoutubePlaylistService(token as string).then((response) => {
+                const playList = response.data.data;
+                setPlaylist(playList);
+                setVideo(playList[0]);
+            });
+    }, [token]);
 
     const opts = {
         width: "1920",
@@ -36,16 +51,18 @@ const OverlayYoutube = () => {
         }
     };
 
-    const changeVideoHandler = () => {
-        setVideoId("ngyMzCe6nVs");
-    };
-
     return (
         <div className={styles["container"]}>
-            <YouTube opts={opts} videoId={videoId} onStateChange={onStateChange} onReady={onReady} onError={onError} />
-            <div className={styles["title-video"]}>BLACK DESERT PVP - lucifans (Sage) vs. Ferrettx (Sorceress)</div>
-            <button onClick={changeVideoHandler}>Alterar Video</button>
-            <button>Play</button>
+            {video.youtube_id && (
+                <YouTube
+                    opts={opts}
+                    videoId={video.youtube_id}
+                    onStateChange={onStateChange}
+                    onReady={onReady}
+                    onError={onError}
+                />
+            )}
+            <div className={styles["title-video"]}>{video.title}</div>
         </div>
     );
 };

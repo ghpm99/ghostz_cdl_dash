@@ -5,8 +5,13 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 
 import Link from "next/link";
+import {
+    fetchUrlOAuthYoutube,
+    fetchYoutubePlaylist,
+    loadPlaylist,
+    updateActiveYoutubePlaylistService,
+} from "services/youtube";
 import styles from "./youtube.module.scss";
-import { fetchUrlOAuthYoutube, fetchYoutubePlaylist, loadPlaylist } from "services/youtube";
 
 const { Header, Content, Footer, Sider } = Layout;
 const { Option } = Select;
@@ -70,6 +75,13 @@ const YoutubeSettings = () => {
 
     const updateYoutubePlaylistData = () => {
         fetchYoutubePlaylist().then((response) => setYoutubePlaylistData(response.data));
+    };
+
+    const activeYoutubePlaylist = (id) => {
+        updateActiveYoutubePlaylistService(id).then((response) => {
+            console.log(response);
+            updateYoutubePlaylistData();
+        });
     };
 
     return (
@@ -144,7 +156,11 @@ const YoutubeSettings = () => {
                                     title: "Ações",
                                     dataIndex: "id",
                                     key: "id",
-                                    render: (value) => <Button type="primary">Ativar</Button>,
+                                    render: (value) => (
+                                        <Button type="primary" onClick={() => activeYoutubePlaylist(value)}>
+                                            Ativar
+                                        </Button>
+                                    ),
                                 },
                             ]}
                             dataSource={youtubePlaylistData}
