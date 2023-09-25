@@ -29,6 +29,11 @@ export async function updateActiveYoutubePlaylistService(id: number) {
     return response.data;
 }
 
+export async function requestNextVideoPlaylistService() {
+    const response = await api.post("/youtube/playlist/next-video/");
+    return response.data;
+}
+
 export async function fetchActiveYoutubePlaylistService(token: string, position?: number) {
     const response = await axios.create({ baseURL: YOUTUBE_API_ENDPOINT }).get("/youtube/playlist/get-active/", {
         params: {

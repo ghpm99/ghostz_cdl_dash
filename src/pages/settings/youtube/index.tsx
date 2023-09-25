@@ -9,6 +9,7 @@ import {
     fetchUrlOAuthYoutube,
     fetchYoutubePlaylist,
     loadPlaylist,
+    requestNextVideoPlaylistService,
     updateActiveYoutubePlaylistService,
 } from "services/youtube";
 import styles from "./youtube.module.scss";
@@ -84,6 +85,15 @@ const YoutubeSettings = () => {
         });
     };
 
+    const nextVideoPlaylist = () => {
+        requestNextVideoPlaylistService().then((response) =>
+            message.success({
+                content: response.msg,
+                key: keyMessage,
+            })
+        );
+    };
+
     return (
         <Layout style={{ minHeight: "100vh" }}>
             <Sider
@@ -121,6 +131,7 @@ const YoutubeSettings = () => {
                         <Button onClick={loginYoutube} type="primary">
                             Logar no Youtube
                         </Button>
+                        <Button onClick={nextVideoPlaylist}>Proximo video</Button>
                         <div>
                             PlayList ID:
                             <Input value={playlistId} onChange={(event) => setPlayListId(event.target.value)} />

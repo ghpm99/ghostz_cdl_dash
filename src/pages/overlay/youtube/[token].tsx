@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 import { fetchActiveYoutubePlaylistService, updateStateChangeService } from "services/youtube";
 import styles from "./youtube.module.scss";
 import YouTube from "react-youtube";
+import { GetServerSideProps } from "next";
+import Pusher from "pusher-js";
 
 interface IYoutubeVideo {
     id: number;
@@ -19,7 +21,7 @@ const emptyVideoObj: IYoutubeVideo = {
     position: 0,
 };
 
-const OverlayYoutube = () => {
+const OverlayYoutube = (props) => {
     const router = useRouter();
     const { token } = router.query;
 
@@ -28,6 +30,24 @@ const OverlayYoutube = () => {
 
     console.log(video);
     console.log(nextVideo);
+
+    useEffect(() => {
+        const pusher = new Pusher(props.pusher_key, {
+            cluster: props.pusher_cluster,
+            authEndpoint: process.env.NEXT_PUBLIC_API_URL + "/pusher/auth",
+            auth: {
+                headers: {
+                    Authorization: "Basic " + token,
+                },
+            },
+        });
+
+        const channel = pusher.subscribe("private-youtube");
+        channel.bind("commands", onCommandHandler);
+        return () => {
+            pusher.unsubscribe("private-youtube");
+        };
+    }, []);
 
     useEffect(() => {
         if (token)
@@ -45,6 +65,12 @@ const OverlayYoutube = () => {
         });
     };
 
+    const onCommandHandler = (data) => {
+        console.log(data);
+        setVideo(data[0]);
+        setNextVideo(data[1]);
+    };
+
     const opts = {
         width: "1920",
         height: "1080",
@@ -57,7 +83,7 @@ const OverlayYoutube = () => {
     };
 
     const onReady = (event) => {
-        console.log(event);
+        console.log("ready", event);
 
         const player = event.target;
         player.playVideo();
@@ -65,6 +91,9 @@ const OverlayYoutube = () => {
 
     const onError = (error) => {
         console.error("YouTube Player Error:", error);
+        setVideo(nextVideo);
+        error.target.playVideo();
+        updateNextVideo();
     };
 
     const onStateChange = (event) => {
@@ -96,3 +125,11 @@ const OverlayYoutube = () => {
 };
 
 export default OverlayYoutube;
+
+export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
+    const props = {
+        pusher_key: process.env.PUSHER_KEY,
+        pusher_cluster: process.env.PUSHER_CLUSTER,
+    };
+    return { props };
+};
