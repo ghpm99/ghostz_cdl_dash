@@ -28,9 +28,6 @@ const OverlayYoutube = (props) => {
     const [video, setVideo] = useState<IYoutubeVideo>(emptyVideoObj);
     const [nextVideo, setNextVideo] = useState<IYoutubeVideo>(emptyVideoObj);
 
-    console.log(video);
-    console.log(nextVideo);
-
     useEffect(() => {
         const pusher = new Pusher(props.pusher_key, {
             cluster: props.pusher_cluster,
@@ -66,7 +63,6 @@ const OverlayYoutube = (props) => {
     };
 
     const onCommandHandler = (data) => {
-        console.log(data);
         setVideo(data[0]);
         setNextVideo(data[1]);
     };
@@ -83,14 +79,11 @@ const OverlayYoutube = (props) => {
     };
 
     const onReady = (event) => {
-        console.log("ready", event);
-
         const player = event.target;
         player.playVideo();
     };
 
     const onError = (error) => {
-        console.error("YouTube Player Error:", error);
         setVideo(nextVideo);
         error.target.playVideo();
         updateNextVideo();

@@ -40,7 +40,6 @@ const Overlay = (props) => {
                 setActive(response.data.data);
             })
             .catch((error) => {
-                console.log("error", error);
                 if (error.response.status === 404) {
                     setActive((prev) => ({
                         ...prev,

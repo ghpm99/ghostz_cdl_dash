@@ -67,7 +67,6 @@ const ModalEditTeam = (props: IModalEditTeamProps) => {
                         options={props.classOptions}
                         value={character.bdo_class}
                         onChange={(value, option) => {
-                            console.log(value, option);
                             editTeamEvent(character.id, "bdo_class", option.label);
                         }}
                     />

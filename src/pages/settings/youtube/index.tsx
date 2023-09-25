@@ -80,7 +80,6 @@ const YoutubeSettings = () => {
 
     const activeYoutubePlaylist = (id) => {
         updateActiveYoutubePlaylistService(id).then((response) => {
-            console.log(response);
             updateYoutubePlaylistData();
         });
     };
