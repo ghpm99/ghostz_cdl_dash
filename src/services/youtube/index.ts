@@ -1,8 +1,6 @@
 import axios from "axios";
 import { API_ENDPOINT, api } from "services";
 
-const YOUTUBE_API_ENDPOINT = "http://192.168.100.5:8300" ?? API_ENDPOINT;
-
 export async function fetchUrlOAuthYoutube() {
     const response = await api.get("/youtube/auth/");
     return response.data;
@@ -35,7 +33,7 @@ export async function requestNextVideoPlaylistService() {
 }
 
 export async function fetchActiveYoutubePlaylistService(token: string, position?: number) {
-    const response = await axios.create({ baseURL: YOUTUBE_API_ENDPOINT }).get("/youtube/playlist/get-active/", {
+    const response = await axios.create({ baseURL: API_ENDPOINT }).get("/youtube/playlist/get-active/", {
         params: {
             position: position,
         },
@@ -51,7 +49,7 @@ export async function fetchActiveYoutubePlaylistService(token: string, position?
 }
 
 export async function updateStateChangeService(token: string, id: number, state: number) {
-    const response = await axios.create({ baseURL: YOUTUBE_API_ENDPOINT }).post(
+    const response = await axios.create({ baseURL: API_ENDPOINT }).post(
         "/youtube/playlist/set-state/",
         {
             id: id,
