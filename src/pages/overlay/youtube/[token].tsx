@@ -70,11 +70,9 @@ const OverlayYoutube = (props) => {
     const opts = {
         width: "1920",
         height: "1080",
-        showinfo: 0,
         playerVars: {
             autoplay: 1,
-            origin: "http://localhost:3300",
-            showinfo: 0,
+            origin: "https://ghostz-cdl-dash.vercel.app",
         },
     };
 
