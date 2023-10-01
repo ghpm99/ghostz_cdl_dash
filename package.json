@@ -7,6 +7,7 @@
     },
     "dependencies": {
         "@ant-design/icons": "^5.0.0",
+        "@sentry/nextjs": "^7.72.0",
         "antd": "^5.1.4",
         "axios": "^1.2.2",
         "next": "latest",
