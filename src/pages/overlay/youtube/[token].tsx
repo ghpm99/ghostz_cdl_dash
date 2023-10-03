@@ -56,10 +56,17 @@ const OverlayYoutube = (props) => {
     }, [token]);
 
     const updateNextVideo = () => {
-        fetchActiveYoutubePlaylistService(token as string, nextVideo.position).then((response) => {
-            const playlist = response.data.data;
-            setNextVideo(playlist[0]);
-        });
+        if (nextVideo && nextVideo.position) {
+            fetchActiveYoutubePlaylistService(token as string, nextVideo.position).then((response) => {
+                const playlist = response.data.data;
+                setNextVideo(playlist[0]);
+            });
+        } else {
+            fetchActiveYoutubePlaylistService(token as string).then((response) => {
+                const playlist = response.data.data;
+                setNextVideo(playlist[0]);
+            });
+        }
     };
 
     const onCommandHandler = (data) => {
