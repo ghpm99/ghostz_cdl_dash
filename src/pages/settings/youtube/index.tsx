@@ -9,7 +9,7 @@ import {
     fetchUrlOAuthYoutube,
     fetchYoutubePlaylist,
     loadPlaylist,
-    requestNextVideoPlaylistService,
+    requestSkipVideoPlaylistService,
     updateActiveYoutubePlaylistService,
 } from "services/youtube";
 import styles from "./youtube.module.scss";
@@ -84,8 +84,8 @@ const YoutubeSettings = () => {
         });
     };
 
-    const nextVideoPlaylist = () => {
-        requestNextVideoPlaylistService().then((response) =>
+    const skipVideoPlaylist = () => {
+        requestSkipVideoPlaylistService().then((response) =>
             message.success({
                 content: response.msg,
                 key: keyMessage,
@@ -130,7 +130,7 @@ const YoutubeSettings = () => {
                         <Button onClick={loginYoutube} type="primary">
                             Logar no Youtube
                         </Button>
-                        <Button onClick={nextVideoPlaylist}>Proximo video</Button>
+                        <Button onClick={skipVideoPlaylist}>Pular video</Button>
                         <div>
                             PlayList ID:
                             <Input value={playlistId} onChange={(event) => setPlayListId(event.target.value)} />

@@ -1,7 +1,11 @@
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
-import { fetchActiveYoutubePlaylistService, updateStateChangeService } from "services/youtube";
+import {
+    fetchActiveYoutubePlaylistService,
+    fetchNextVideoYoutubePlaylistService,
+    updateStateChangeService,
+} from "services/youtube";
 import styles from "./youtube.module.scss";
 import YouTube from "react-youtube";
 import { GetServerSideProps } from "next";
@@ -27,6 +31,7 @@ const OverlayYoutube = (props) => {
 
     const [video, setVideo] = useState<IYoutubeVideo>(emptyVideoObj);
     const [nextVideo, setNextVideo] = useState<IYoutubeVideo>(emptyVideoObj);
+    const [loadingNextVideo, setLoadingNextVideo] = useState<Boolean>(false);
 
     useEffect(() => {
         const pusher = new Pusher(props.pusher_key, {
@@ -56,17 +61,14 @@ const OverlayYoutube = (props) => {
     }, [token]);
 
     const updateNextVideo = () => {
-        if (nextVideo && nextVideo.position) {
-            fetchActiveYoutubePlaylistService(token as string, nextVideo.position).then((response) => {
-                const playlist = response.data.data;
-                setNextVideo(playlist[0]);
-            });
-        } else {
-            fetchActiveYoutubePlaylistService(token as string).then((response) => {
-                const playlist = response.data.data;
-                setNextVideo(playlist[0]);
-            });
-        }
+        if (loadingNextVideo) return;
+        setLoadingNextVideo(true);
+        fetchNextVideoYoutubePlaylistService(token as string)
+            .then((response) => {
+                const video = response.data.data;
+                setNextVideo(video);
+            })
+            .finally(() => setLoadingNextVideo(false));
     };
 
     const onCommandHandler = (data) => {
@@ -95,14 +97,18 @@ const OverlayYoutube = (props) => {
     };
 
     const onStateChange = (event) => {
-        updateStateChangeService(token as string, video.id, event.data);
+        updateStateChangeService(token as string, video.id, event.data).then(() => {
+            if (event.data === 1) {
+                if (!nextVideo || nextVideo.youtube_id === video.youtube_id) {
+                    updateNextVideo();
+                }
+            }
+        });
         if (event.data === -1) {
             event.target.playVideo();
-        }
-        if (event.data === 0) {
+        } else if (event.data === 0) {
             setVideo(nextVideo);
             event.target.playVideo();
-            updateNextVideo();
         }
     };
 

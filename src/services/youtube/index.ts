@@ -27,16 +27,26 @@ export async function updateActiveYoutubePlaylistService(id: number) {
     return response.data;
 }
 
-export async function requestNextVideoPlaylistService() {
-    const response = await api.post("/youtube/playlist/next-video/");
+export async function requestSkipVideoPlaylistService() {
+    const response = await api.post("/youtube/playlist/skip-video/");
     return response.data;
 }
 
-export async function fetchActiveYoutubePlaylistService(token: string, position?: number) {
+export async function fetchActiveYoutubePlaylistService(token: string) {
     const response = await axios.create({ baseURL: API_ENDPOINT }).get("/youtube/playlist/get-active/", {
-        params: {
-            position: position,
+        headers: {
+            Authorization: "Basic " + token,
         },
+    });
+    return {
+        status: response.status,
+        statusText: response.statusText,
+        data: response.data,
+    };
+}
+
+export async function fetchNextVideoYoutubePlaylistService(token: string) {
+    const response = await axios.create({ baseURL: API_ENDPOINT }).get("/youtube/playlist/next-video/", {
         headers: {
             Authorization: "Basic " + token,
         },
