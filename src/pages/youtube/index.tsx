@@ -1,4 +1,4 @@
-import { DesktopOutlined, PieChartOutlined, UserOutlined } from "@ant-design/icons";
+import { DesktopOutlined, PieChartOutlined, UserOutlined, YoutubeOutlined } from "@ant-design/icons";
 import { Breadcrumb, Button, Input, Layout, Menu, MenuProps, Select, Table, Tag, message, theme } from "antd";
 import cdlLogo from "assets/Logo_Clube_Small.png";
 import Image from "next/image";
@@ -29,14 +29,19 @@ function getItem(label: React.ReactNode, key: React.Key, icon?: React.ReactNode,
 }
 
 const items: MenuItem[] = [
-    getItem(<Link href={"/panel"}>Painel</Link>, "1", <PieChartOutlined />),
-    getItem("Overlay", "2", <DesktopOutlined />),
-    getItem("Configurações", "sub1", <UserOutlined />, [getItem(<Link href={"/settings/youtube"}>Youtube</Link>, "3")]),
+    getItem("Paineis", "panels", <UserOutlined />, [
+        getItem(<Link href={"/panel"}>Clube da Luta</Link>, "panel", <PieChartOutlined />),
+        getItem(<Link href={"/youtube"}>Youtube</Link>, "youtube", <YoutubeOutlined />),
+    ]),
+    getItem("Overlays", "overlay", <UserOutlined />, [
+        getItem(<Link href={"/overlay/cdl/"}>Clube da Luta</Link>, "overlay-cdl", <DesktopOutlined />),
+        getItem(<Link href={"/overlay/youtube/"}>Youtube</Link>, "overlay-youtube", <DesktopOutlined />),
+    ]),
 ];
 
 const keyMessage = "YOUTUBE_KEY_MESSAGE";
 
-const YoutubeSettings = () => {
+const YoutubePanel = () => {
     const [collapsed, setCollapsed] = useState(false);
     const [playlistId, setPlayListId] = useState("");
     const [youtubePlaylistData, setYoutubePlaylistData] = useState([]);
@@ -183,4 +188,4 @@ const YoutubeSettings = () => {
     );
 };
 
-export default YoutubeSettings;
+export default YoutubePanel;

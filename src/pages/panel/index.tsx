@@ -1,4 +1,4 @@
-import { DesktopOutlined, PieChartOutlined, UserOutlined } from "@ant-design/icons";
+import { DesktopOutlined, PieChartOutlined, UserOutlined, YoutubeOutlined } from "@ant-design/icons";
 import { Breadcrumb, Button, Layout, Menu, MenuProps, message, Select, Table, Tag, theme } from "antd";
 import cdlLogo from "assets/Logo_Clube_Small.png";
 import ModalImportJSON from "components/modal";
@@ -36,9 +36,14 @@ function getItem(label: React.ReactNode, key: React.Key, icon?: React.ReactNode,
 }
 
 const items: MenuItem[] = [
-    getItem("Painel", "1", <PieChartOutlined />),
-    getItem("Overlay", "2", <DesktopOutlined />),
-    getItem("Configurações", "sub1", <UserOutlined />, [getItem(<Link href={"/settings/youtube"}>Youtube</Link>, "3")]),
+    getItem("Paineis", "panels", <UserOutlined />, [
+        getItem(<Link href={"/panel"}>Clube da Luta</Link>, "panel", <PieChartOutlined />),
+        getItem(<Link href={"/youtube"}>Youtube</Link>, "youtube", <YoutubeOutlined />),
+    ]),
+    getItem("Overlays", "overlay", <UserOutlined />, [
+        getItem(<Link href={"/overlay/cdl"}>Clube da Luta</Link>, "overlay-cdl", <DesktopOutlined />),
+        getItem(<Link href={"/overlay/youtube"}>Youtube</Link>, "overlay-youtube", <DesktopOutlined />),
+    ]),
 ];
 
 const keyMessage = "PANEL_KEY_MESSAGE";

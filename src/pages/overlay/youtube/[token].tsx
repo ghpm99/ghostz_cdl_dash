@@ -32,6 +32,7 @@ const OverlayYoutube = (props) => {
     const [video, setVideo] = useState<IYoutubeVideo>(emptyVideoObj);
     const [nextVideo, setNextVideo] = useState<IYoutubeVideo>(emptyVideoObj);
     const [loadingNextVideo, setLoadingNextVideo] = useState<Boolean>(false);
+    const [titleCssName, setTitleCssName] = useState<"visible" | "hidden">("visible");
 
     useEffect(() => {
         const pusher = new Pusher(props.pusher_key, {
@@ -82,6 +83,9 @@ const OverlayYoutube = (props) => {
         playerVars: {
             autoplay: 1,
             origin: "https://ghostz-cdl-dash.vercel.app",
+            showinfo: 0,
+            controls: 0,
+            rel: 0,
         },
     };
 
@@ -107,23 +111,30 @@ const OverlayYoutube = (props) => {
         if (event.data === -1) {
             event.target.playVideo();
         } else if (event.data === 0) {
+            setTitleCssName("hidden");
             setVideo(nextVideo);
             event.target.playVideo();
+        } else if (event.data === 3) {
+            setTitleCssName("visible");
         }
     };
 
     return (
         <div className={styles["container"]}>
             {video.youtube_id && (
-                <YouTube
-                    opts={opts}
-                    videoId={video.youtube_id}
-                    onStateChange={onStateChange}
-                    onReady={onReady}
-                    onError={onError}
-                />
+                <div className={styles["video-container"]}>
+                    <div className={styles["video-foreground"]}>
+                        <YouTube
+                            opts={opts}
+                            videoId={video.youtube_id}
+                            onStateChange={onStateChange}
+                            onReady={onReady}
+                            onError={onError}
+                        />
+                    </div>
+                </div>
             )}
-            <div className={styles["title-video"]}>{video.title}</div>
+            <div className={`${styles["title-video"]} ${styles[titleCssName]}`}>{video.title}</div>
         </div>
     );
 };
