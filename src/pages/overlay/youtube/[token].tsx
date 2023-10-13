@@ -103,7 +103,6 @@ const OverlayYoutube = (props) => {
     };
 
     const onStateChange = (event) => {
-        console.log(event);
         updateStateChangeService(token as string, video.id, event.data).then(() => {
             if (event.data === 1) {
                 if (!nextVideo || nextVideo.youtube_id === video.youtube_id) {
@@ -125,7 +124,7 @@ const OverlayYoutube = (props) => {
     return (
         <div className={styles["container"]}>
             <div className={`${styles["video-loading"]} ${styles[titleCssName]}`}>
-                <Image className={styles["logo"]} src={cdlLogo} alt="Logo" />
+                <Image src={cdlLogo} alt="Logo" />
             </div>
             {video.youtube_id && (
                 <div className={styles["video-container"]}>
