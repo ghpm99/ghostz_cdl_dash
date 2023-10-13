@@ -1,6 +1,7 @@
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
+import cdlLogo from "assets/Clube-da-Luta-2.0.png";
 import {
     fetchActiveYoutubePlaylistService,
     fetchNextVideoYoutubePlaylistService,
@@ -10,6 +11,7 @@ import styles from "./youtube.module.scss";
 import YouTube from "react-youtube";
 import { GetServerSideProps } from "next";
 import Pusher from "pusher-js";
+import Image from "next/image";
 
 interface IYoutubeVideo {
     id: number;
@@ -101,6 +103,7 @@ const OverlayYoutube = (props) => {
     };
 
     const onStateChange = (event) => {
+        console.log(event);
         updateStateChangeService(token as string, video.id, event.data).then(() => {
             if (event.data === 1) {
                 if (!nextVideo || nextVideo.youtube_id === video.youtube_id) {
@@ -114,13 +117,16 @@ const OverlayYoutube = (props) => {
             setTitleCssName("hidden");
             setVideo(nextVideo);
             event.target.playVideo();
-        } else if (event.data === 3) {
+        } else if (event.data === 1) {
             setTitleCssName("visible");
         }
     };
 
     return (
         <div className={styles["container"]}>
+            <div className={`${styles["video-loading"]} ${styles[titleCssName]}`}>
+                <Image className={styles["logo"]} src={cdlLogo} alt="Logo" />
+            </div>
             {video.youtube_id && (
                 <div className={styles["video-container"]}>
                     <div className={styles["video-foreground"]}>
