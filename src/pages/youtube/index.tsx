@@ -1,5 +1,19 @@
 import { DesktopOutlined, PieChartOutlined, UserOutlined, YoutubeOutlined } from "@ant-design/icons";
-import { Breadcrumb, Button, Input, Layout, Menu, MenuProps, Select, Table, Tag, message, theme } from "antd";
+import {
+    Breadcrumb,
+    Button,
+    Checkbox,
+    Input,
+    Layout,
+    Menu,
+    MenuProps,
+    Select,
+    Switch,
+    Table,
+    Tag,
+    message,
+    theme,
+} from "antd";
 import cdlLogo from "assets/Logo_Clube_Small.png";
 import Image from "next/image";
 import { useEffect, useState } from "react";
@@ -11,6 +25,7 @@ import {
     loadPlaylist,
     requestSkipVideoPlaylistService,
     updateActiveYoutubePlaylistService,
+    updateRandomYoutubePlaylistService,
 } from "services/youtube";
 import styles from "./youtube.module.scss";
 
@@ -98,6 +113,20 @@ const YoutubePanel = () => {
         );
     };
 
+    const changeRandomPlaylistHandler = (id, checked) => {
+        message.loading({
+            content: `Atualizando aleatorio playlist: ${id}`,
+            key: keyMessage,
+        });
+        updateRandomYoutubePlaylistService(id, checked).then((response) => {
+            message.success({
+                content: response.msg,
+                key: keyMessage,
+            });
+            updateYoutubePlaylistData();
+        });
+    };
+
     return (
         <Layout style={{ minHeight: "100vh" }}>
             <Sider
@@ -165,6 +194,19 @@ const YoutubePanel = () => {
                                     render: (value) => {
                                         let color = value ? "geekblue" : "volcano";
                                         return <Tag color={color}>{value ? "Ativo" : "Inativo"}</Tag>;
+                                    },
+                                },
+                                {
+                                    title: "Aleatorio",
+                                    dataIndex: "random",
+                                    key: "random",
+                                    render: (value, record) => {
+                                        return (
+                                            <Switch
+                                                checked={value}
+                                                onChange={(checked) => changeRandomPlaylistHandler(record.id, checked)}
+                                            />
+                                        );
                                     },
                                 },
                                 {

@@ -27,6 +27,14 @@ export async function updateActiveYoutubePlaylistService(id: number) {
     return response.data;
 }
 
+export async function updateRandomYoutubePlaylistService(id: number, random: boolean) {
+    const response = await api.post("/youtube/playlist/update-random/", {
+        playlist_id: id,
+        random: random,
+    });
+    return response.data;
+}
+
 export async function requestSkipVideoPlaylistService() {
     const response = await api.post("/youtube/playlist/skip-video/");
     return response.data;
