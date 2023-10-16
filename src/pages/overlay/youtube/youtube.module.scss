@@ -15,6 +15,7 @@
     right: 0;
     float: right;
     text-wrap: nowrap;
+    white-space: nowrap;
     &.hidden {
         max-width: 0;
         opacity: 0;
