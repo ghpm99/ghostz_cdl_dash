@@ -1,5 +1,5 @@
 import { DesktopOutlined, PieChartOutlined, UserOutlined, YoutubeOutlined } from "@ant-design/icons";
-import { Breadcrumb, Button, Layout, Menu, MenuProps, message, Select, Table, Tag, theme } from "antd";
+import { Avatar, Breadcrumb, Button, Layout, Menu, MenuProps, message, Select, Table, Tag, theme } from "antd";
 import cdlLogo from "assets/Logo_Clube_Small.png";
 import ModalImportJSON from "components/modal";
 import ModalEditTeam from "components/modalEditTeam";
@@ -20,6 +20,7 @@ import {
 
 import styles from "./panel.module.scss";
 import Link from "next/link";
+import UserAvatar from "components/userAvatar";
 
 const { Header, Content, Footer, Sider } = Layout;
 const { Option } = Select;
@@ -285,7 +286,9 @@ const Panel = () => {
                 <Menu theme="dark" defaultSelectedKeys={["1"]} mode="inline" items={items} />
             </Sider>
             <Layout className="site-layout">
-                <Header style={{ padding: 0, background: colorBgContainer }} />
+                <Header className={styles["header"]} style={{ background: colorBgContainer }}>
+                    <UserAvatar />
+                </Header>
                 <Content style={{ margin: "0 16px" }}>
                     <Breadcrumb style={{ margin: "16px 0" }}>
                         <Breadcrumb.Item>CDL</Breadcrumb.Item>
