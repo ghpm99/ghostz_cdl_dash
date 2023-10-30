@@ -4,8 +4,22 @@ import { fetchUserDetails } from "services/auth";
 import TokenService from "../../services/auth/authToken";
 import Router from "next/router";
 
+interface IUser {
+    id: number;
+    name: string;
+    username: string;
+    first_name: string;
+    last_name: string;
+    email: string;
+    is_staff: boolean;
+    is_active: boolean;
+    is_superuser: boolean;
+    last_login: string;
+    date_joined: string;
+}
+
 const UserAvatar = () => {
-    const [userData, setUserData] = useState();
+    const [userData, setUserData] = useState<IUser>();
     useEffect(() => {
         fetchUserDetails().then((response) => setUserData(response.data));
     }, []);

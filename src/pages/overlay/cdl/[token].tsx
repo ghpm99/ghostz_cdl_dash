@@ -24,17 +24,10 @@ const Overlay = (props) => {
     });
 
     const onChangeOverlay = (data) => {
-        setActive(data.data);
+        fetchActiveOverlay();
     };
 
     const onChangeOverlayType = (data) => {
-        setActive((prev) => ({
-            ...prev,
-            type: data.data,
-        }));
-    };
-
-    useEffect(() => {
         fetchActiveOverlayService(token as string)
             .then((response) => {
                 setActive(response.data.data);
@@ -48,7 +41,26 @@ const Overlay = (props) => {
                     }));
                 }
             });
+    };
 
+    const fetchActiveOverlay = () => {
+        fetchActiveOverlayService(token as string)
+            .then((response) => {
+                setActive(response.data.data);
+            })
+            .catch((error) => {
+                if (error.response.status === 404) {
+                    setActive((prev) => ({
+                        ...prev,
+                        background:
+                            "https://static.vecteezy.com/ti/vetor-gratis/p3/6549647-pagina-de-destino-404-gratis-vetor.jpg",
+                    }));
+                }
+            });
+    };
+
+    useEffect(() => {
+        fetchActiveOverlay();
         const pusher = new Pusher(props.pusher_key, {
             cluster: props.pusher_cluster,
             authEndpoint: process.env.NEXT_PUBLIC_API_URL + "/pusher/auth",

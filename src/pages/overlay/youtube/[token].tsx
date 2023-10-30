@@ -54,13 +54,16 @@ const OverlayYoutube = (props) => {
         };
     }, []);
 
+    const fetchActiveYoutubePlaylist = () => {
+        fetchActiveYoutubePlaylistService(token as string).then((response) => {
+            const playlist = response.data.data;
+            setVideo(playlist[0]);
+            setNextVideo(playlist[1]);
+        });
+    };
+
     useEffect(() => {
-        if (token)
-            fetchActiveYoutubePlaylistService(token as string).then((response) => {
-                const playlist = response.data.data;
-                setVideo(playlist[0]);
-                setNextVideo(playlist[1]);
-            });
+        if (token) fetchActiveYoutubePlaylist();
     }, [token]);
 
     const updateNextVideo = () => {
@@ -75,8 +78,7 @@ const OverlayYoutube = (props) => {
     };
 
     const onCommandHandler = (data) => {
-        setVideo(data[0]);
-        setNextVideo(data[1]);
+        fetchActiveYoutubePlaylist();
     };
 
     const opts = {
