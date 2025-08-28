@@ -1,4 +1,5 @@
 import axios from "axios";
+import { IUserData } from "components/userAvatar";
 import { api } from "services";
 
 const apiLogin = axios.create({
@@ -16,6 +17,6 @@ export async function signinService(username: string, password: string) {
 }
 
 export async function fetchUserDetails() {
-    const response = await api.get("/auth/user");
-    return response;
+    const response = await api.get<IUserData>("/auth/user");
+    return response.data;
 }
