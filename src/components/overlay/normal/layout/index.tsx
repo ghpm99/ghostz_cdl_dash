@@ -28,11 +28,11 @@ const Layout = (props: ILayoutProps) => {
                 <div className={styles["hour"]}>{props.hour}</div>
                 <div className={styles["modality"]}>{props.modality}</div>
                 <div className={styles["league"]}>{props.league}</div>
-                <div className={styles["league-range"]}>{leagueData.range}</div>
-                <div className={styles["league-name"]}>{leagueData.name}</div>
+                {/* <div className={styles["league-range"]}>{leagueData.range}</div>
+                <div className={styles["league-name"]}>{leagueData.name}</div> */}
             </div>
             <div className={styles["container"]}>
-                <div className={styles["display-subtitle"]}>
+                {/* <div className={styles["display-subtitle"]}>
                     <div>MMR</div>
                     <div>partidas</div>
                     <div>vitorias</div>
@@ -40,7 +40,7 @@ const Layout = (props: ILayoutProps) => {
                     <div>campeao</div>
                     <div>win rate</div>
                     <div>twitch</div>
-                </div>
+                </div> */}
                 <div className={styles["first-player"]}>
                     <div className={styles["first-personal-data"]}>
                         <div>{firstCharacter.family}</div>
@@ -48,7 +48,7 @@ const Layout = (props: ILayoutProps) => {
                         <div>{firstCharacter.bdo_class}</div>
                         <div>{firstCharacter.combat_style}</div>
                     </div>
-                    <div className={styles["first-battle-data"]}>
+                    {/* <div className={styles["first-battle-data"]}>
                         <div>{firstTeam.mmr}</div>
                         <div>{firstCharacter.matches}</div>
                         <div>{firstCharacter.victories}</div>
@@ -58,7 +58,7 @@ const Layout = (props: ILayoutProps) => {
                             {calculateWinRate(parseInt(firstCharacter.matches), parseInt(firstCharacter.victories))}
                         </div>
                         <div>{firstTeam.twitch}</div>
-                    </div>
+                    </div> */}
                 </div>
                 <div className={styles["second-player"]}>
                     <div className={styles["second-personal-data"]}>
@@ -67,7 +67,7 @@ const Layout = (props: ILayoutProps) => {
                         <div>{secondCharacter.bdo_class}</div>
                         <div>{secondCharacter.combat_style}</div>
                     </div>
-                    <div className={styles["second-battle-data"]}>
+                    {/* <div className={styles["second-battle-data"]}>
                         <div>{secondTeam.mmr}</div>
                         <div>{secondCharacter.matches}</div>
                         <div>{secondCharacter.victories}</div>
@@ -77,7 +77,7 @@ const Layout = (props: ILayoutProps) => {
                             {calculateWinRate(parseInt(secondCharacter.matches), parseInt(secondCharacter.victories))}
                         </div>
                         <div>{secondTeam.twitch}</div>
-                    </div>
+                    </div> */}
                 </div>
             </div>
         </div>

@@ -1,7 +1,6 @@
-import { useQuery } from "@tanstack/react-query";
 import { Avatar, Button, Popover } from "antd";
+import { useAuth } from "components/providers/auth";
 import Router from "next/router";
-import { fetchUserDetails } from "services/auth";
 import TokenService from "../../services/auth/authToken";
 
 export interface IUserData {
@@ -19,15 +18,12 @@ export interface IUserData {
 }
 
 const UserAvatar = () => {
-    const { data: userData, isLoading } = useQuery({
-        queryKey: ["userDetails"],
-        queryFn: fetchUserDetails,
-        staleTime: 5 * 60 * 1000, // 5 minutes
-    });
+    const { user: userData, isLoading } = useAuth();
 
     if (isLoading) {
         return <div>Loading...</div>;
     }
+
     const hasName = !!userData && !!userData.name;
 
     const logout = () => {
